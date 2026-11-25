@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#153238"><title>ProgramOps Studio · Operational Readiness Lab</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#16313a;background:#f3f6f4;font-size:14px;line-height:1.5;--dark:#153238;--muted:#50676e;--border:#dce5e2;--teal:#21685b;--red:#ae414c;--orange:#9f5d10}
+*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #edb95e;outline-offset:2px}a{color:#195e58}button{border:1px solid #cad8d3;background:white;color:#184a46;border-radius:9px;padding:9px 12px;font-weight:650}button:hover{background:#eff7f3}button.primary{background:#22675b;border-color:#22675b;color:#fff}button.primary:hover{background:#184c43}button.danger{color:#9d3744;border-color:#e8bfc5}.shell{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:100vh}.side{background:#153238;color:#cfe0dd;padding:25px 16px;display:flex;flex-direction:column;gap:22px}.logo{display:flex;gap:12px;align-items:center}.logo-icon{background:#d8ece2;color:#174d46;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;font-weight:850;font-size:24px}.logo strong{display:block;color:#fff;font-size:16px;letter-spacing:-.4px}.logo span{font-size:11px;color:#a0bab5}.nav{display:grid;gap:5px}.nav button{display:block;text-align:left;width:100%;background:transparent;border:0;color:#c8ddda}.nav button.selected,.nav button:hover{color:white;background:#2d5457}.side-note{margin-top:auto;border-top:1px solid #376061;padding-top:16px;font-size:12px;color:#a9c3bf}.side-note strong{display:block;color:#dceae5}.main{padding:24px 30px 40px;max-width:1590px;width:100%;min-width:0}.header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:17px}.overline{text-transform:uppercase;letter-spacing:1.6px;color:#42675e;font-size:10px;font-weight:800}.header h1{font-size:27px;letter-spacing:-.9px;margin:3px 0}.sub{color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.notice{border:1px solid #c7ddd2;background:#e6f3eb;border-radius:11px;padding:13px 17px;font-size:12px;color:#295d4f;margin-bottom:15px}.notice strong{color:#194938}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:19px}.metric{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-weight:770;font-size:30px;letter-spacing:-1px;margin:3px 0}.metric .desc{font-size:11px;color:#52676e}.workspace{display:grid;grid-template-columns:minmax(330px,1fr) minmax(390px,1.18fr);align-items:start;gap:15px}.panel{background:#fff;border:1px solid var(--border);border-radius:12px;min-width:0;overflow:hidden}.panel-head{padding:17px 19px 14px;border-bottom:1px solid #e8eeeb;display:flex;justify-content:space-between;align-items:center;gap:10px}.panel-head h2{font-size:17px;letter-spacing:-.35px;margin:0}.panel-head p{font-size:12px;color:var(--muted);margin:3px 0 0}.panel-body{padding:17px 19px}.filterbar{display:flex;gap:8px;margin-bottom:12px}.filterbar input{flex:1}.field{display:flex;flex-direction:column;gap:5px;font-size:12px;color:#31545a;font-weight:640}.field input,.field select,.field textarea,.filterbar input,.filterbar select{border:1px solid #d0deda;border-radius:8px;padding:9px 10px;background:#fff;color:#153238;min-width:0}.field textarea{resize:vertical}.field input,.field select,.field textarea{width:100%}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.span2{grid-column:1/-1}.hint{font-size:11px;color:var(--muted)}.item{display:block;width:100%;text-align:left;background:transparent;border:1px solid #e4eae6;border-radius:10px;padding:11px 12px;margin-bottom:8px;color:#193239}.item:hover{background:#f5f9f6}.item.selected{border-color:#478e80;background:#edf6f1}.item strong{display:block;font-size:13px}.item .meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-top:6px}.tag{display:inline-block;padding:3px 8px;font-size:10px;font-weight:760;border-radius:7px;background:#eef1f0;color:#586a70;white-space:nowrap}.tag.critical{color:#9d3543;background:#ffedef}.tag.warning{color:#94600e;background:#fff1d9}.tag.action{color:#375f80;background:#eaf3ff}.tag.review{color:#7447a2;background:#f2eafd}.tag.ready{color:#236a59;background:#e8f5ee}.tag.terminal{background:#eef1f0;color:#52676a}.sechead{margin:18px 0 8px;display:flex;align-items:center;justify-content:space-between;gap:8px}.sechead h3{font-size:14px;margin:0}.rule{border:1px solid #e2e7e4;border-radius:9px;padding:10px 12px;margin:9px 0}.rule.critical{border-left:4px solid #bf4b54}.rule.warning{border-left:4px solid #d69c49}.rule.review{border-left:4px solid #8964b3}.rule b{display:block;font-size:12px}.rule small{display:block;color:#5d7074;font-size:11px;margin-top:4px}.muted{color:var(--muted)}.task{border:1px solid #e0e9e5;border-radius:10px;padding:12px 13px;margin-bottom:10px}.task-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.task-title{font-size:13px;font-weight:730}.task-meta{font-size:11px;color:#506868;margin:4px 0 9px}.task-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:end}.task-actions .field{flex:1;min-width:120px}.task-actions button{padding:8px 10px;font-size:11px}.section-divider{border:0;border-top:1px solid #e8eeeb;margin:19px 0}.stage-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}.feedback{border:1px solid #e1c8b7;border-radius:9px;padding:12px;background:#fff5ed;color:#733c1d;font-size:12px;margin-bottom:15px}.feedback.success{border-color:#b7d7c6;background:#ebf6ef;color:#24634c}.feedback strong{display:block}.feedback[hidden]{display:none}.empty{padding:24px 10px;color:#4f6868;text-align:center;font-size:13px}.summaryrow{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:10px;font-size:12px}.foot{margin-top:20px;border-top:1px solid var(--border);padding-top:16px;color:#52676e;font-size:11px}.event{display:flex;align-items:start;gap:10px;padding:7px 0;border-bottom:1px solid #edf1ef;font-size:11px}.event b{color:#33525c}.event span{color:#506868}.scenario{background:#f8faf8;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:12px}.scenario p{margin:0 0 8px;font-size:12px;color:#52676e}.scenario .actions{flex-wrap:wrap}.badge-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.collapsed{display:none}dialog{border:1px solid #cbded4;border-radius:15px;width:min(540px,calc(100vw - 32px));padding:24px 25px;box-shadow:0 20px 90px #15323855;background:#fff;color:var(--dark)}dialog::backdrop{background:#0b2429a6}dialog h2{margin:0 0 8px;font-size:22px;letter-spacing:-.5px}.center{text-align:center}.anchor{background:none;border:0;color:#1a6358;text-decoration:underline;padding:0;font-size:12px}.small{font-size:11px}.hide{display:none}@media(max-width:1220px){.workspace{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.shell{display:block}.side{padding:14px;gap:10px}.nav{display:flex;flex-wrap:wrap}.nav button{width:auto;font-size:11px;padding:8px}.side-note{display:none}.main{padding:17px 12px 27px}.header{align-items:start;flex-direction:column}.header h1{font-size:23px}.metrics{gap:7px}.metric{padding:11px}.metric .value{font-size:24px}.field-grid{grid-template-columns:1fr}.span2{grid-column:1}.panel-head,.panel-body{padding:13px}.workspace{display:block}.workspace .panel{margin-bottom:12px}.filterbar{flex-wrap:wrap}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<div class="shell"><aside class="side"><div class="logo"><div class="logo-icon">P</div><div><strong>ProgramOps Studio</strong><span>Readiness & handoff lab</span></div></div><nav class="nav" aria-label="Workspace"><button class="selected" data-nav="workspace" aria-current="page">Workspace</button><button data-nav="exceptions">Exception queue</button><button data-nav="method">How it works</button></nav><div class="side-note"><strong>Independent, AI-assisted portfolio demonstration</strong>Fictional records. No employer affiliation. No real security, sharing, or production audit history.</div></aside>
+<main class="main">
+<header class="header"><div><div class="overline">Operations control · Stage 3 prototype</div><h1 id="pageTitle">Readiness & exception management</h1><div class="sub" id="pageSub">See what is missing, who owns it, and what should happen next.</div></div><div class="actions"><label class="field">Scenario date<input id="clock" type="date" min="2000-01-01" max="2100-12-31" aria-label="Scenario evaluation date"></label><button id="export">Export fictional CSV</button><button class="primary" id="create">+ New request</button></div></header>
+<div class="notice"><strong>Fictional demonstration — not production software.</strong> All names, tasks, approvals and evidence are invented. Actions simulate roles; this site does not verify identity, share records across people or secure an audit log. Do not enter real or confidential information.</div>
+<div id="storageNotice" class="feedback" role="status" hidden></div><div id="announcement" role="status" aria-live="polite" class="sr-only"></div><div id="feedback" class="feedback" hidden></div>
+<div class="metrics" id="metrics"></div>
+<section id="workspace" class="workspace">
+<div class="panel"><div class="panel-head"><div><h2>Requests</h2><p>Choose a request to inspect and resolve.</p></div><span class="tag" id="countBadge"></span></div><div class="panel-body"><div class="filterbar"><input id="search" placeholder="Find a request or owner" aria-label="Search requests"><select id="filter" aria-label="Filter requests"><option value="all">All</option><option value="open">Active</option><option value="attention">Needs attention</option><option value="terminal">Completed / cancelled</option></select></div><div id="requests"></div></div></div>
+<div class="panel"><div class="panel-head"><div><h2 id="detailTitle" tabindex="-1">Request details</h2><p id="detailSubtitle">Stage, readiness and operational risk are separate.</p></div><span id="detailRisk" class="tag"></span></div><div class="panel-body" id="details"></div></div>
+</section>
+<section id="exceptions" class="panel hide"><div class="panel-head"><div><h2>Exception resolution queue</h2><p>Each warning explains the issue, owner and next action. Select any request to work on it.</p></div></div><div class="panel-body" id="exceptionContent"></div></section>
+<section id="method" class="panel hide"><div class="panel-head"><div><h2>How this demonstration works</h2><p>Scope, decisions and limitations.</p></div></div><div class="panel-body"><div class="scenario"><strong>Try four realistic operational failures</strong><p>Switch to a scenario, open the relevant request, and test the guarded workflow. Changes affect only your local browser.</p><div class="actions"><button data-scenario="falsegreen">Missing IT verification</button><button data-scenario="handoff">Unaccepted vendor handoff</button><button data-scenario="approval">Pending approval</button><button data-scenario="closeout">Open delivery follow-up</button></div></div><h3>Problem hypothesis</h3><p>Cross-team requests can look ready while an approval, responsibility handoff or verification is still incomplete. The prototype prevents a request being advanced through workflow gates unless its records support the transition.</p><h3>What the application does</h3><p>Maintains individual task owners, accepted assignments, dependencies, evidence, approval decisions, delivery confirmation and closeout controls. It derives readiness and prioritizes open issues using transparent rules.</p><h3>What it does not do</h3><p>No authenticated actors, shared backend, trusted history, email notifications, enterprise integrations, secure permissions, customer validation, financial savings measurement or real-world deployments. All actors and approvals are simulated for learning.</p><h3>Technical approach</h3><p>Plain JavaScript workflow engine, scenario fixtures and tests. Data stays in browser local storage. The workflow engine can be independently tested in Node.js. Source and acceptance results accompany this demo.</p><div class="actions"><button id="reset">Reset all fictional data</button></div><p class="hint">AI-assisted implementation; developed as an independent portfolio learning project. The specified business need and commercial viability remain unvalidated.</p></div></section>
+<footer class="foot">ProgramOps Studio · Independent demonstration · The readiness checks are illustrative and do not replace organizational policy. <span id="footer"></span></footer>
+</main></div>
+<dialog id="createDialog" aria-labelledby="createTitle"><form id="createForm"><h2 id="createTitle">New fictional request</h2><p class="hint">Use invented people and information only. Title is required; incomplete requests stay Submitted until missing information is resolved.</p><div class="field-grid"><label class="field span2">Request title<input name="title" required maxlength="100" placeholder="e.g. Vendor access review"></label><label class="field">Type<select name="type"><option>Service request</option><option>Stakeholder meeting</option><option>Facilities request</option><option>Equipment installation</option><option>Internal project</option></select></label><label class="field">Coordinator (fictional)<select name="owner"><option value="">Not yet assigned</option><option>Morgan Reed</option><option>Taylor Brooks</option><option>Jesse Park</option><option>Casey Shah</option><option>Avery Chen</option></select></label><label class="field">Target date<input name="targetDate" type="date" min="2000-01-01" max="2100-12-31"></label><label class="field span2">Summary<input name="summary" maxlength="180" placeholder="What needs to happen?"></label></div><div class="actions" style="margin-top:18px;justify-content:flex-end"><button type="button" id="cancelCreate">Cancel</button><button type="submit" class="primary">Create fictional request</button></div></form></dialog>
+<script>
+/* ProgramOps Studio Stage 3 — deterministic demo workflow engine.
+ * Synthetic data only. No authenticated actors, backend, or enforceable security boundary.
+ */
+(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root) root.ProgramOpsCore = api;
+})(typeof globalThis === 'object' ? globalThis : this, function () {
+  'use strict';
+  const STAGES = ['Submitted','Needs information','Planned','In progress','Ready for review','Approved','Delivered','Closed','Cancelled'];
+  const ACTIVE = new Set(STAGES.slice(0,7));
+  const clean = value => String(value == null ? '' : value).trim();
+  const validDay = date => typeof date==='string' && /^\d{4}-\d{2}-\d{2}$/.test(date) && date.slice(0,4)>='2000' && date.slice(0,4)<='2100' && !Number.isNaN(Date.parse(date+'T00:00:00Z')) && new Date(date+'T00:00:00Z').toISOString().slice(0,10) === date;
+  const dayDiff = (target, today) => validDay(target) && validDay(today) ? Math.round((Date.parse(target+'T00:00:00Z') - Date.parse(today+'T00:00:00Z'))/86400000) : null;
+  const stamp = (clock='2026-11-23') => clock+'T12:00:00Z';
+  const clone = x => JSON.parse(JSON.stringify(x));
+  const fail = (code, message) => ({ ok:false, code, message });
+  const ok = value => ({ok:true, ...(value||{})});
+  // Bounds apply to user-entered text, not serialized audit snapshots. Never silently truncate evidence.
+  const textError = (fields) => {for(const [name,value,max] of fields)if(clean(value).length>max)return fail('LENGTH',name+' exceeds '+max+' characters');return null;};
+  const requestTextError = r => textError([['Request title',r.title,100],['Request type',r.type,100],['Coordinator',r.owner,100],['Summary',r.summary,180]]);
+  const identity = v=>clean(v).replace(/\s+/g,' ').toLowerCase();
+  const requiredVerificationIds = r => {const tasks=r.tasks||[], map=new Map(tasks.map(t=>[t.id,t])), ids=new Set(), visit=id=>{if(ids.has(id))return;ids.add(id);for(const dep of map.get(id)?.dependsOn||[])visit(dep);};for(const t of tasks)if(t.kind==='readiness'&&activeTask(t))visit(t.id);return ids;};
+  const independentReviewer = (r,actor) => {const ids=requiredVerificationIds(r);return !!identity(actor) && identity(actor)!==identity(r.owner) && !(r.tasks||[]).some(t=>ids.has(t.id) && [t.assignedTo,t.acceptedBy].some(v=>identity(v)===identity(actor)));};
+  const independenceError = () => fail('INDEPENDENCE','Select an independent reviewer who is neither the coordinator nor a required readiness contributor');
+  const activeTask = t => t.required !== false && t.applicable !== false;
+  const terminal = r => ['Closed','Cancelled'].includes(r.stage);
+  const delivered = r => ['Delivered','Closed'].includes(r.stage);
+  const policyOK = r => (r.approval?.required===true && !!clean(r.approval.approver) && !!clean(r.approval.policyReason) && !!clean(r.approval.policyDecidedBy) && !!clean(r.approval.policyDecidedAt)) || (r.approval?.required===false && r.approval.decision==='Not applicable' && !!clean(r.approval.policyReason) && !!clean(r.approval.policyDecidedBy) && !!clean(r.approval.policyDecidedAt));
+  // Canonical business approval scope. This is a demo consistency check, NOT a cryptographic signature.
+  const approvalBasis = r => JSON.stringify({title:clean(r.title),type:clean(r.type),summary:clean(r.summary),owner:clean(r.owner),targetDate:clean(r.targetDate),policy:{required:r.approval?.required,approver:clean(r.approval?.approver),reason:clean(r.approval?.policyReason)},tasks:(r.tasks||[]).filter(t=>activeTask(t)).map(t=>({id:t.id,kind:t.kind,title:clean(t.title),assignedTo:clean(t.assignedTo),acceptedBy:t.kind==='readiness'?clean(t.acceptedBy):'',status:t.kind==='readiness'?t.status:'Postdelivery',evidence:t.kind==='readiness'?clean(t.evidence):'',dueDate:clean(t.dueDate),dependsOn:t.dependsOn||[],evidenceRequired:t.evidenceRequired!==false})).sort((a,b)=>String(a.id).localeCompare(String(b.id)))});
+  const approvalReset = (r,reason,actor,clock) => {
+    if(r.approval?.required===true && ['Approved','Waived'].includes(r.approval.decision)){
+      const before=JSON.stringify(r.approval);
+      r.approval={...r.approval,decision:'Pending',decisionAt:'',decisionBy:'',note:'',waiver:null,basis:''};
+      r.events=[...(r.events||[]),event(r,'approval invalidated',before,JSON.stringify(r.approval),reason,actor,clock)];
+    }
+  };
+  const resetExemption = (r,reason,actor,clock) => {
+    if(r.approval?.required!==false)return;const before=JSON.stringify(r.approval);
+    r.approval={required:null,approver:'',decision:'Undetermined',note:'',policyReason:'',policyDecidedBy:'',policyDecidedAt:'',basis:'',decisionAt:'',decisionBy:'',waiver:null};
+    r.events=[...(r.events||[]),event(r,'approval policy reset',before,JSON.stringify(r.approval),reason,actor,clock)];
+  };
+  const restartReview = (r,reason,actor,clock) => {
+    if(['Ready for review','Approved'].includes(r.stage)){
+      const old=r.stage;r.stage='In progress';
+      r.events=[...(r.events||[]),event(r,'automatic rollback',old,'In progress',reason,actor,clock)];
+    }
+  };
+  const relevant = (r, kind='readiness') => (r.tasks||[]).filter(t => t.kind===kind && activeTask(t));
+  const checkIntake = r => {
+    const missing=[];
+    if(!clean(r.title)) missing.push('title');
+    if(requestTextError(r))missing.push('request text within length limits');
+    if(!clean(r.type)) missing.push('request type');
+    if(!clean(r.owner)) missing.push('coordinator');
+    if(!validDay(r.targetDate)) missing.push('valid target date');
+    return missing;
+  };
+  const dependencyCycle = (tasks) => {
+    const map=new Map(tasks.map(t=>[t.id,t]));
+    const seen=new Set(), path=new Set();
+    function visit(id){if(path.has(id))return true;if(seen.has(id))return false;seen.add(id);path.add(id);const t=map.get(id);for(const dep of (t?.dependsOn||[])){if(dep===id||!map.has(dep)||visit(dep)) return true;}path.delete(id);return false;}
+    return tasks.some(t=>visit(t.id));
+  };
+  // Explicit dependencies require verified evidence, even for a task not otherwise mandatory.
+  const taskVerified = (t,map,path=new Set()) => {
+    if(!t||path.has(t.id)||t.status!=='Complete'||!clean(t.assignedTo)||clean(t.acceptedBy)!==clean(t.assignedTo)||(t.evidenceRequired!==false&&!clean(t.evidence)))return false;
+    const next=new Set(path);next.add(t.id);
+    return (t.dependsOn||[]).every(id=>taskVerified(map.get(id),map,next));
+  };
+  const dependencyBlockers=(r,t)=>{const map=new Map((r.tasks||[]).map(x=>[x.id,x]));return (t.dependsOn||[]).filter(id=>!taskVerified(map.get(id),map,new Set([t.id])));};
+  const taskIssues = (r, kind='readiness') => {
+    const issues=[];const map=new Map((r.tasks||[]).map(t=>[t.id,t]));
+    for(const t of relevant(r,kind)){
+      const prefix=clean(t.title)||t.id;
+      if(!clean(t.assignedTo)){issues.push({rule:'BR-02',taskId:t.id,owner:r.owner||'Coordinator',message:prefix+': no assigned owner',next:'Assign a responsible person'});continue;}
+      if(clean(t.acceptedBy)!==clean(t.assignedTo)){issues.push({rule:'BR-03',taskId:t.id,owner:t.assignedTo,message:prefix+': assignment not accepted',next:'Ask '+t.assignedTo+' to accept the handoff'});continue;}
+      const blocking=dependencyBlockers(r,t);
+      if(blocking.length){issues.push({rule:'BR-05',taskId:t.id,owner:t.assignedTo,message:prefix+': predecessor incomplete ('+blocking.map(id=>map.get(id)?.title||id).join(', ')+')',next:'Complete predecessor requirements first'});continue;}
+      if(t.status!=='Complete'){issues.push({rule:'BR-04',taskId:t.id,owner:t.assignedTo,message:prefix+': task not complete',next:'Complete and verify task'});continue;}
+      if(t.evidenceRequired!==false&&!clean(t.evidence)){issues.push({rule:'BR-04',taskId:t.id,owner:t.assignedTo,message:prefix+': verification evidence missing',next:'Record verification evidence'});continue;}
+    }
+    return issues;
+  };
+  const getReadiness = r => {
+    const count=relevant(r).length;
+    if(!validDay(r.targetDate)||!clean(r.owner)||!clean(r.title)||!clean(r.type)||requestTextError(r)||!Array.isArray(r.tasks)||!count){return {state:'Review needed',reason:'Missing or inconsistent intake, date, or readiness requirements',issues:[{rule:'BR-15',taskId:null,owner:r.owner||'Coordinator',message:'Missing or inconsistent request information',next:'Review the request details and readiness requirements'}]};}
+    if((r.tasks||[]).some(t=>!clean(t.id)||!clean(t.title))||new Set((r.tasks||[]).map(t=>t.id)).size!==(r.tasks||[]).length)return {state:'Review needed',reason:'Task configuration contains blank or duplicate identifiers',issues:[{rule:'BR-15',taskId:null,owner:r.owner||'Coordinator',message:'Task identifiers or titles are blank or duplicated',next:'Review the task configuration outside this demo before relying on readiness'}]};
+    if(dependencyCycle(r.tasks)){return {state:'Review needed',reason:'Invalid task dependency configuration',issues:[{rule:'BR-15',taskId:null,owner:r.owner||'Coordinator',message:'Task dependencies have a cycle or missing reference',next:'Review the task dependencies outside this demo; editing dependency links is not supported here'}]};}
+    const badDates=relevant(r).filter(t=>!validDay(t.dueDate));
+    if(badDates.length)return {state:'Review needed',reason:'Required task deadline missing or invalid',issues:badDates.map(t=>({rule:'BR-15',taskId:t.id,owner:t.assignedTo||r.owner||'Coordinator',message:(t.title||t.id)+': missing or invalid task due date',next:'Review and correct required task due date'}))};
+    const issues=taskIssues(r);return {state:issues.length?'Not ready':'Ready',issues,reason:issues.length?issues[0].message:'All required readiness tasks have accepted owners, completed dependencies and evidence'};
+  };
+  const approvalOK = r => policyOK(r) && (r.approval.required===false || ((r.approval.decision==='Approved' && independentReviewer(r,r.approval.approver) && identity(r.approval.decisionBy)===identity(r.approval.approver) && validDay((r.approval.decisionAt||'').slice(0,10))) || (r.approval.decision==='Waived' && r.approval.waiver?.authorized===true && independentReviewer(r,r.approval.waiver.actor) && !!clean(r.approval.waiver.reason) && clean(r.approval.waiver.scope)==='approval')) && !!clean(r.approval.basis) && r.approval.basis===approvalBasis(r) && (r.tasks||[]).filter(t=>requiredVerificationIds(r).has(t.id)).every(t=>[t.completedAt,t.acceptedAt].every(at=>!at || (recordedDay(at) && recordedDay(r.approval.decisionAt) && recordedDay(at)<=recordedDay(r.approval.decisionAt)))));
+  // The simulated clock is day-level. Never use scheduled dates or draft delivery dates
+  // as the latest recorded event: they may intentionally refer to the past or future.
+  const recordedDay = value => typeof value==='string' && validDay(value.slice(0,10)) && Number.isFinite(Date.parse(value)) ? value.slice(0,10) : null;
+  const recordedValues = r => [r.createdAt,r.updatedAt,r.approval?.policyDecidedAt,r.approval?.decisionAt,r.approval?.waiver?.at,
+    r.delivery?.recordedAt,...(r.tasks||[]).flatMap(t=>[t.acceptedAt,t.completedAt]),...(r.events||[]).map(e=>e.at)].filter(v=>v!==undefined&&v!==null&&v!=='');
+  const clockCheck = (r,clock) => {
+    if(!validDay(clock))return fail('CLOCK','Choose a valid scenario date before recording an action');
+    const days=recordedValues(r).map(recordedDay);
+    if(days.some(d=>!d))return fail('CLOCK','Recorded event timestamp is invalid; review the record before recording another action');
+    const latest=days.sort().at(-1);
+    if(latest && clock<latest)return fail('CHRONOLOGY','Scenario date is before the latest recorded event ('+latest+'). Choose that date or later to record an action.');
+    return null;
+  };
+  // Historical delivery is evaluated against its recorded transition, not a movable
+  // evaluation date. For older synthetic fixtures without a transition, use updatedAt.
+  const historicalDeliveryDay = r => recordedDay(r.delivery?.recordedAt || (r.events||[]).findLast(e=>e.type==='stage'&&e.after==='Delivered')?.at || r.updatedAt);
+  const deliveryIssues = (r,clock,{historical=false}={}) => {
+    const errs=[],date=r.delivery?.date;
+    if(!clean(date)&&!clean(r.delivery?.evidence))return ['Delivery date and evidence are required'];
+    if(!validDay(date))return ['A valid delivery date is required (2000–2100)'];
+    if(!clean(r.delivery?.evidence))return ['Delivery evidence is required'];
+    const limit=historical?historicalDeliveryDay(r):clock;
+    if(!validDay(limit))errs.push('Delivery chronology cannot be verified: recording date is missing or invalid');
+    else if(date>limit)errs.push('Delivery cannot be recorded in the future relative to its recording date');
+    const anchor=(value,label)=>{const day=recordedDay(value);if(!day)errs.push('Delivery chronology cannot be verified: '+label+' date is missing or invalid');else if(date<day)errs.push('Delivery date cannot be before '+label+' ('+day+')');};
+    anchor(r.createdAt,'request creation');
+    anchor(r.approval?.policyDecidedAt,'approval policy determination');
+    if(r.approval?.required===true){
+      if(r.approval.decision==='Approved')anchor(r.approval.decisionAt,'approval');
+      if(r.approval.decision==='Waived'){anchor(r.approval.waiver?.at,'documented waiver');anchor(r.approval.decisionAt,'waiver decision');}
+    }
+    for(const t of relevant(r)){
+      if(t.status!=='Complete')continue;
+      if(t.acceptedAt)anchor(t.acceptedAt,t.title+' handoff acceptance');
+      // Old hand-built approval fixtures lack some verification timestamps. A valid
+      // required approval/waiver attests readiness as of its decision day, but is
+      // not a substitute for a timestamp where no approval was required.
+      if(t.completedAt||r.approval?.required!==true||!approvalOK(r))anchor(t.completedAt,t.title+' verification');
+    }
+    return errs;
+  };
+  const closeOK = r => !taskIssues(r,'closeout').length && !!clean(r.closeout?.actor) && !!clean(r.closeout?.reason);
+  const stageIssues = (r,target,clock='2026-11-23') => {
+    const errs=[];const missing=checkIntake(r);
+    const rank=STAGES.indexOf(target);
+    if(rank>=STAGES.indexOf('Planned') && target!=='Cancelled' && missing.length) errs.push('Missing required intake: '+missing.join(', '));
+    if(rank>=STAGES.indexOf('Planned') && target!=='Cancelled' && (!Array.isArray(r.tasks)||!r.tasks.some(t=>t.kind==='readiness'&&activeTask(t)))) errs.push('Define at least one required readiness task before planning');
+    if(rank>=STAGES.indexOf('Ready for review') && target!=='Cancelled' && !policyOK(r)) errs.push('Approval policy has not been explicitly determined and documented');
+    if(rank>=STAGES.indexOf('Ready for review') && target!=='Cancelled' && r.approval?.required===true && !independentReviewer(r,r.approval.approver))errs.push('Approval reviewer must be independent of the coordinator and required readiness contributors');
+    if(rank>=STAGES.indexOf('Ready for review') && target!=='Cancelled') {
+      const readiness=getReadiness(r);
+      if(readiness.state!=='Ready') errs.push(...readiness.issues.map(x=>x.message));
+    }
+    if(rank>=STAGES.indexOf('Approved') && target!=='Cancelled' && !approvalOK(r)) errs.push(r.approval?.decision==='Rejected'?'Approval rejected: address the reviewer’s concerns and obtain a new approval':'Approval required: authorized approval or a scoped, documented waiver is missing');
+    if(rank>=STAGES.indexOf('Delivered') && target!=='Cancelled') errs.push(...deliveryIssues(r,clock,{historical:delivered(r)}));
+    if(target==='Delivered'){
+      for(const t of relevant(r,'closeout')){
+        if(!clean(t.assignedTo)||clean(t.acceptedBy)!==clean(t.assignedTo)) errs.push((clean(t.title)||t.id)+': assign an owner and accept the closeout handoff before delivery');
+      }
+    }
+    if(target==='Closed'){
+      errs.push(...taskIssues(r,'closeout').map(x=>x.message));
+      if(!clean(r.closeout?.actor)||!clean(r.closeout?.reason))errs.push('Closure actor and reason are required'+(!relevant(r,'closeout').length?'; explain why no follow-up is required':''));
+    }
+    return errs;
+  };
+  const nextStages={
+    'Submitted':['Needs information','Planned','Cancelled'], 'Needs information':['Planned','Cancelled'],
+    'Planned':['In progress','Cancelled'], 'In progress':['Ready for review','Cancelled'],
+    'Ready for review':['Approved','In progress','Cancelled'], 'Approved':['Delivered','In progress','Cancelled'],
+    'Delivered':['Closed','In progress'], 'Closed':[], 'Cancelled':[]
+  };
+  const event=(r, type, before, after, reason, actor, clock) => ({id:'EV-'+String((r.events||[]).length+1).padStart(3,'0'),at:stamp(clock),actor:clean(actor)||'Demo coordinator (unverified)',type,before,after,reason:clean(reason)});
+  // Follow all downstream dependencies (including across open intermediates), preserve the
+  // previous verification in history, and invalidate only completed dependent work.
+  const invalidateDependants=(r,id,actor,clock)=>{
+    const visited=new Set([id]),queue=[id];
+    while(queue.length){const predecessor=queue.shift();for(const t of r.tasks||[]){
+      if(visited.has(t.id)||!(t.dependsOn||[]).includes(predecessor))continue;
+      visited.add(t.id);queue.push(t.id);
+      if(t.status!=='Complete')continue;
+      const before=JSON.stringify(t);t.status='Open';t.evidence='';t.completedAt='';
+      r.events=[...(r.events||[]),event(r,'dependent verification invalidated',before,JSON.stringify(t),t.title+': prerequisite '+id+' changed; verify again',actor,clock)];
+    }}
+  };
+  const changeStage = (r,target,{actor='Demo coordinator',reason='',clock='2026-11-23'}={}) => {
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(!nextStages[r.stage]?.includes(target))return fail('TRANSITION','Not permitted: '+r.stage+' → '+target+'. Use the next valid workflow step.');
+    const limitError=textError([['Action reason',reason,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(target==='Cancelled'&&!clean(reason))return fail('REASON','Cancellation requires a reason');
+    if(r.stage==='Delivered' && target==='In progress'){
+      if(!clean(reason))return fail('REASON','Reopening delivered work requires a reason');
+      if(!clean(actor))return fail('ACTOR','Reopening delivered work requires a simulated actor');
+    }
+    const errs=stageIssues(r,target,clock);
+    if(errs.length)return fail('GATE',errs.join(' • '));
+    const updated=clone(r);updated.stage=target;if(target==='Delivered'){updated.delivery.recordedAt=stamp(clock);if(clean(r.closeout?.actor)||clean(r.closeout?.reason)){updated.closeout={actor:'',reason:''};updated.events=[...(updated.events||[]),event(updated,'premature closeout cleared',JSON.stringify(r.closeout),JSON.stringify(updated.closeout),'Closure information must be recorded after delivery; old values retained',actor,clock)];}}
+    updated.events=[...(updated.events||[]),event(updated,'stage',r.stage,target,target==='Closed'?r.closeout.reason:reason,target==='Closed'?r.closeout.actor:actor,clock)];
+    if(target==='In progress' && ['Approved','Ready for review'].includes(r.stage))approvalReset(updated,'Returned for further work; prior decision requires renewed review',actor,clock);
+    if(r.stage==='Delivered' && target==='In progress'){
+      const previous={delivery:clone(r.delivery||{}),closeout:clone(r.closeout||{}),tasks:clone((r.tasks||[]).filter(t=>t.kind==='closeout'))};
+      updated.delivery={date:'',evidence:''};updated.closeout={actor:'',reason:''};
+      for(const t of (updated.tasks||[]).filter(x=>x.kind==='closeout')){t.status='Open';t.evidence='';t.completedAt='';}
+      approvalReset(updated,'Delivered request reopened for corrective work',actor,clock);
+      resetExemption(updated,'Delivered request reopened; reassess exemption before redelivery',actor,clock);
+      updated.events.push(event(updated,'delivery reopened',JSON.stringify(previous),'In progress','Previous delivery and closeout reset; prior values retained in simulated history',actor,clock));
+    }
+    updated.updatedAt=stamp(clock);return ok({record:updated});
+  };
+  const reconcile = (r,{clock='2026-11-23',actor='Demo coordinator'}={}) => {
+    const timeError=clockCheck(r,clock);if(timeError)return clone(r); // Do not write an event using an invalid or earlier clock.
+    const updated=clone(r);const errs=stageIssues(updated,updated.stage,clock);
+    if(errs.length && ['Ready for review','Approved'].includes(updated.stage)){
+      const was=updated.stage;updated.stage='In progress';
+      if(updated.approval?.required===true)approvalReset(updated,'Readiness or approval became inconsistent',actor,clock);
+      updated.events=[...(updated.events||[]),event(updated,'automatic rollback',was,'In progress','Readiness or approval changed: '+errs.join(' | '),actor,clock)];
+    }
+    if(errs.length && ['Delivered','Closed'].includes(updated.stage)){
+      // Historical delivery is not silently rewritten. Contradictions remain prominent.
+      updated.consistencyWarning=errs.join(' • ');
+    }else updated.consistencyWarning='';
+    return updated;
+  };
+  const completeTask=(r,id,{actor='Demo contributor',evidence='',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(terminal(r))return fail('TERMINAL','Completed or cancelled requests are locked');
+    const updated=clone(r),t=updated.tasks?.find(t=>t.id===id);if(!t)return fail('NOT_FOUND','Task not found');
+    if(r.stage==='Delivered' && t.kind==='readiness')return fail('DELIVERED','Reopen delivered work before changing readiness evidence');
+    if(!clean(t.assignedTo))return fail('HANDOFF','Task needs an assigned owner before completion');
+    if(clean(actor)!==clean(t.assignedTo)||!clean(actor))return fail('ACTOR','Only the assigned person (simulated) may verify this task');
+    if(!clean(t.assignedTo)||clean(t.acceptedBy)!==clean(t.assignedTo))return fail('HANDOFF','Task needs an assigned, accepted owner before completion');
+    if(t.kind==='closeout'&&!['Delivered','Closed'].includes(updated.stage))return fail('SEQUENCE','Closeout task cannot be completed until delivery is recorded');
+    const limitError=textError([['Verification evidence',evidence,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(t.evidenceRequired!==false&&!clean(evidence))return fail('EVIDENCE','Verification evidence is required for '+t.title);
+    const map=new Map(updated.tasks.map(t=>[t.id,t]));const deps=dependencyBlockers(updated,t);
+    if(deps.length)return fail('DEPENDENCY','Complete prerequisite task(s): '+deps.map(id=>map.get(id)?.title||id).join(', '));
+    const prior=t.status==='Complete'?JSON.stringify({id:t.id,title:t.title,evidence:t.evidence,completedAt:t.completedAt,assignedTo:t.assignedTo}):id;
+    const repeated=t.status==='Complete' && t.kind==='readiness' && (clean(t.evidence)!==clean(evidence)||t.completedAt!==stamp(clock));
+    t.status='Complete';t.evidence=clean(evidence);t.completedAt=stamp(clock);
+    updated.events=[...(updated.events||[]),event(updated,'task completed',prior,t.title,t.evidence,actor,clock)];
+    if(repeated){approvalReset(updated,'Readiness was reverified after a prior decision',actor,clock);restartReview(updated,'Readiness reverified; repeat review',actor,clock);}
+    return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const reopenTask=(r,id,{actor='Demo coordinator',reason='',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(terminal(r))return fail('LOCKED','Completed or cancelled requests are locked');
+    const limitError=textError([['Correction reason',reason,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(!clean(reason))return fail('REASON','Correcting a completed task requires a documented reason');
+    const updated=clone(r),t=updated.tasks?.find(t=>t.id===id);if(!t)return fail('NOT_FOUND','Task not found');
+    if(updated.stage==='Delivered'&&t.kind==='readiness')return fail('DELIVERED','Reopen delivery before changing previously verified readiness');
+    if(t.status!=='Complete')return fail('STATUS','Only completed tasks can be reopened');
+    const oldEvidence=t.evidence;t.status='Open';t.evidence='';t.completedAt='';
+    updated.events=[...(updated.events||[]),event(updated,'task reopened',oldEvidence,'Open',t.title+': '+reason,actor,clock)];
+    invalidateDependants(updated,id,actor,clock);
+    if(r.stage==='Delivered'&&t.kind==='closeout'&&(clean(updated.closeout?.actor)||clean(updated.closeout?.reason))){const before=JSON.stringify(updated.closeout);updated.closeout={actor:'',reason:''};updated.events.push(event(updated,'closeout invalidated',before,JSON.stringify(updated.closeout),'Closeout task reopened; record fresh closure details after verification',actor,clock));}
+    if(!(r.stage==='Delivered'&&t.kind==='closeout')){
+      approvalReset(updated,'Verified task reopened: '+t.title,actor,clock);
+      restartReview(updated,'Verified task reopened: '+t.title,actor,clock);
+    }
+    return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const acceptTask=(r,id,{actor,clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(delivered(r)||r.stage==='Cancelled')return fail('LOCKED','Reopen delivered work before changing task acceptance');
+    const updated=clone(r),t=updated.tasks?.find(t=>t.id===id);if(!t)return fail('NOT_FOUND','Task not found');
+    if(!clean(t.assignedTo))return fail('OWNER','Task needs an assigned owner');
+    if(clean(actor)!==clean(t.assignedTo))return fail('ACTOR','Only the assigned person (simulated) can accept this handoff');
+    const repeated=requiredVerificationIds(r).has(t.id)&&t.acceptedBy===t.assignedTo&&t.acceptedAt!==stamp(clock);
+    t.acceptedBy=t.assignedTo;t.acceptedAt=stamp(clock);
+    updated.events=[...(updated.events||[]),event(updated,'handoff accepted',id,t.assignedTo,'Simulated owner acceptance',actor,clock)];if(repeated&&['Approved','Waived'].includes(updated.approval?.decision)){approvalReset(updated,'Readiness handoff accepted again after decision',actor,clock);restartReview(updated,'Handoff rechecked; repeat review',actor,clock);}return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const reassignTask=(r,id,owner,{actor='Demo coordinator',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(terminal(r)||r.stage==='Delivered')return fail('LOCKED','Reopen delivered work before reassigning tasks');
+    const updated=clone(r),t=updated.tasks?.find(t=>t.id===id);if(!t)return fail('NOT_FOUND','Task not found');
+    if(clean(t.assignedTo)===clean(owner))return ok({record:r});
+    const limitError=textError([['Task owner',owner,100],['Actor',actor,100]]);if(limitError)return limitError;
+    if(requiredVerificationIds(r).has(t.id) && r.approval?.decision==='Rejected' && identity(owner)===identity(r.approval.approver))return independenceError();
+    const was=JSON.stringify({id:t.id,title:t.title,assignedTo:t.assignedTo,acceptedBy:t.acceptedBy,acceptedAt:t.acceptedAt,status:t.status,evidence:t.evidence,completedAt:t.completedAt});t.assignedTo=clean(owner);t.acceptedBy='';t.acceptedAt='';t.status='Open';t.evidence='';t.completedAt='';
+    updated.events=[...(updated.events||[]),event(updated,'task reassigned',was,t.assignedTo,'Handoff acceptance and evidence reset',actor,clock)];
+    invalidateDependants(updated,id,actor,clock);
+    approvalReset(updated,'Task responsibility changed',actor,clock);restartReview(updated,'Task reassigned',actor,clock);return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const updateRequest=(r,patch,{actor='Demo coordinator',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(delivered(r)||r.stage==='Cancelled')return fail('LOCKED','Delivered, closed or cancelled details cannot be edited without controlled reopening');
+    const updated=clone(r);
+    for(const key of ['title','type','owner','targetDate','summary'])if(Object.prototype.hasOwnProperty.call(patch,key))updated[key]=clean(patch[key]);
+    const limitError=requestTextError(updated)||textError([['Actor',actor,100]]);if(limitError)return limitError;
+    if(!clean(updated.title))return fail('TITLE','Request title is required');
+    if(clean(updated.targetDate)&&!validDay(updated.targetDate))return fail('DATE','Target date must be a valid calendar date');
+    const material=['title','type','owner','targetDate','summary'].filter(k=>clean(r[k])!==clean(updated[k]));
+    // Intake may be incomplete in Submitted/Needs information, but cannot be erased
+    // once work has reached planning. Retain both values of every changed field.
+    for(const key of ['type','owner','targetDate'])if(clean(r[key])&&!clean(updated[key]))return fail('INTAKE','Cannot clear an established '+({type:'request type',owner:'coordinator',targetDate:'target date'})[key]);
+    if(['Planned','In progress','Ready for review','Approved'].includes(r.stage)){
+      const missing=checkIntake(updated);if(missing.length)return fail('INTAKE','Missing required intake: '+missing.join(', '));
+    }
+    if(!material.length)return ok({record:r});
+    if(r.approval?.decision==='Rejected' && identity(updated.owner)===identity(r.approval.approver))return independenceError();
+    updated.events=[...(updated.events||[]),event(updated,'request updated',JSON.stringify(Object.fromEntries(material.map(k=>[k,r[k]??'']))),JSON.stringify(Object.fromEntries(material.map(k=>[k,updated[k]]))),'Request details edited: '+material.join(', '),actor,clock)];
+    if(material.includes('type') && updated.approval?.decision==='Rejected'){
+      // Reclassification may be a corrective action, but it cannot erase a rejection.
+      updated.events.push(event(updated,'rejected approval retained',r.type,updated.type,'Request type changed; prior rejection and reviewer remain until a new approval decision',actor,clock));
+    }else if(material.includes('type')){
+      const priorPolicy=JSON.stringify(updated.approval||{});
+      updated.approval={required:null,approver:'',decision:'Undetermined',note:'',policyReason:'',policyDecidedBy:'',policyDecidedAt:'',basis:'',decisionAt:'',decisionBy:'',waiver:null};
+      updated.events.push(event(updated,'approval policy reset',priorPolicy,JSON.stringify(updated.approval),'Request type changed; simulated process owner must reassess policy',actor,clock));
+    }else if(updated.approval?.required===false)resetExemption(updated,'Material request change: '+material.join(', '),actor,clock);
+    else approvalReset(updated,'Material request change: '+material.join(', '),actor,clock);
+    restartReview(updated,'Material request fields changed: '+material.join(', '),actor,clock);
+    updated.updatedAt=stamp(clock);
+    return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const decideApproval=(r,{decision,actor='Demo reviewer',note='',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(!policyOK(r)||!r.approval.required)return fail('POLICY','An explicit required-approval policy must be recorded first');
+    if(r.stage!=='Ready for review')return fail('STAGE','Approval decisions require Ready for review stage');
+    if(getReadiness(r).state!=='Ready')return fail('READINESS','Complete all readiness checks before an approval decision');
+    if(identity(actor)!==identity(r.approval.approver))return fail('ACTOR','Only the configured simulated approver may decide');
+    if(!independentReviewer(r,actor))return independenceError();
+    const limitError=textError([['Approval note',note,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(['Approved','Waived'].includes(r.approval.decision))return fail('DECISION','Return to In progress for renewed review before replacing a recorded decision');
+    if(!['Approved','Rejected'].includes(decision))return fail('DECISION','Expected Approved or Rejected');
+    if(decision==='Rejected'&&!clean(note))return fail('REASON','Rejection reason is required');
+    if(r.approval.decision==='Rejected'&&decision==='Approved'&&!clean(note))return fail('REASON','Explain how the previous rejection was addressed before recording a new approval');
+    const updated=clone(r);
+    updated.approval={...updated.approval,decision,decisionAt:stamp(clock),decisionBy:actor,note:clean(note),waiver:null,basis:decision==='Approved'?approvalBasis(updated):''};
+    updated.events=[...(updated.events||[]),event(updated,'approval decision',r.approval.decision,decision,note,actor,clock)];
+    if(['Approved','Rejected','Waived'].includes(r.approval.decision))updated.events.push(event(updated,'prior approval retained',JSON.stringify(r.approval),JSON.stringify(updated.approval),'Superseded decision preserved',actor,clock));
+    if(decision==='Rejected'){updated.stage='In progress';updated.events.push(event(updated,'stage','Ready for review','In progress','Approval rejected',actor,clock));}
+    return ok({record:updated});
+  };
+  const waiveApproval=(r,{actor='Demo coordinator',actorRole='Coordinator',reason='',scope='approval',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(!r.approval?.required)return fail('POLICY','No approval is required');
+    if(actorRole!=='Process owner (simulated)'||!['Demo process owner','Process owner'].includes(clean(actor)))return fail('AUTH','Only the simulated process-owner role can create a waiver');
+    if(!independentReviewer(r,actor))return independenceError();
+    const limitError=textError([['Waiver reason',reason,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(['Approved','Waived'].includes(r.approval.decision))return fail('DECISION','Return to In progress for renewed review before replacing a recorded decision');
+    if(r.approval.decision==='Rejected')return fail('REJECTED','Approval was rejected. Address the reviewer’s concerns and obtain a new approval; a waiver cannot override this rejection.');
+    if(!clean(actor)||!clean(reason)||scope!=='approval')return fail('WAIVER','Waiver requires actor, reason and exact scope: approval');
+    if(r.stage!=='Ready for review')return fail('STAGE','Waiver can only be recorded while Ready for review');
+    if(getReadiness(r).state!=='Ready')return fail('READINESS','Do not issue a waiver while required readiness checks remain open');
+    const updated=clone(r);
+    updated.approval={...updated.approval,decision:'Waived',waiver:{authorized:true,actor,role:actorRole,reason:clean(reason),scope,at:stamp(clock)},decisionAt:stamp(clock),decisionBy:actor,note:clean(reason),basis:approvalBasis(updated)};
+    updated.events=[...(updated.events||[]),event(updated,'approval waiver',JSON.stringify(r.approval),JSON.stringify(updated.approval),reason+' (scope: approval)',actor,clock)];
+    return ok({record:updated});
+  };
+  const riskIssues=(r,clock='2026-11-23')=>{
+    const readiness=getReadiness(r),remaining=dayDiff(r.targetDate,clock);
+    const issues=[];
+    if(!validDay(clock))issues.push({id:r.id+':BR-15:clock',rule:'BR-15',severity:'Review needed',owner:r.owner||'Coordinator',message:'Scenario date is invalid',next:'Choose a valid scenario date before evaluating time-sensitive risks',due:''});
+    const historical=(['Delivered','Closed'].includes(r.stage)?stageIssues(r,r.stage,clock):[]).join(' • ');
+    if(!delivered(r)&&r.stage!=='Cancelled'&&!policyOK(r))issues.push({id:r.id+':BR-07:policy',rule:'BR-07',severity:r.stage==='Ready for review'?'Critical':'Review needed',owner:r.owner||'Coordinator',message:'Approval policy is not determined',next:'Record whether approval is required and justify the decision',due:r.targetDate});
+    if(!delivered(r)&&r.stage!=='Cancelled'&&r.approval?.required===true&&!independentReviewer(r,r.approval.approver))issues.push({id:r.id+':BR-07:independence',rule:'BR-07',severity:'Review needed',owner:r.owner||'Coordinator',message:'Configured reviewer is not independent',next:r.approval.decision==='Rejected'?'Resolve role conflict without removing rejection; reassign the conflicting work or cancel the request if no independent review is possible':'Select an independent reviewer in Approval policy or reassign the conflicting work',due:r.targetDate});
+    if(r.stage==='Approved' && stageIssues(r,'Approved',clock).length)issues.push({id:r.id+':BR-15:approved-conflict',rule:'BR-15',severity:'Critical',owner:r.owner||'Coordinator',message:'Approved state contains a stale or missing requirement',next:'Move to In progress; correct the listed requirements and repeat review before delivery',due:r.targetDate});
+    if(r.consistencyWarning||historical) issues.push({id:r.id+':BR-15:consistency',rule:'BR-15',severity:'Critical',owner:r.owner||'Coordinator',message:'Historical status conflict: '+(historical||r.consistencyWarning),next:r.stage==='Delivered'?'Review the conflict; move to In progress with a documented reopening reason if correction is needed':'Review the conflict outside this demo; closed records cannot be corrected here',due:r.targetDate});
+    if(remaining===null && ACTIVE.has(r.stage)) issues.push({id:r.id+':BR-15:date',rule:'BR-15',severity:'Review needed',owner:r.owner||'Coordinator',message:'Target date is missing or invalid',next:'Confirm and correct request date',due:''});
+    if(['Cancelled','Closed'].includes(r.stage))return issues;
+    // Scheduling anomaly is an advisory: a completed task can still have a policy-approved late due date.
+    if(!delivered(r))for(const t of relevant(r))if(validDay(t.dueDate)&&validDay(r.targetDate)&&dayDiff(t.dueDate,r.targetDate)>0){
+      issues.push({id:r.id+':BR-15:schedule:'+t.id,rule:'BR-15',severity:'Warning',owner:t.assignedTo||r.owner||'Coordinator',message:t.title+': required task due date is after request target date',next:'Review the task schedule and revise its due date if incorrect; intentional exceptions are not recordable in this demo',due:t.dueDate});
+    }
+    if(r.stage==='Delivered'){
+      for(const issue of taskIssues(r,'closeout')) issues.push({id:r.id+':'+issue.rule+':'+issue.taskId,rule:issue.rule,severity:'Warning',owner:issue.owner,message:'Closeout: '+issue.message,next:issue.next,due:r.targetDate});
+      return issues;
+    }
+    if(remaining!==null&&remaining<0){issues.push({id:r.id+':BR-10:overdue',rule:'BR-10',severity:'Critical',owner:r.owner||'Coordinator',message:'Target date has passed without recorded delivery',next:'Confirm schedule and delivery; revise the target in Request details or escalate outside this demo',due:r.targetDate});}
+    for(const t of relevant(r)){
+      const due=dayDiff(t.dueDate,clock);
+      if(due!==null&&due<0&&t.status!=='Complete')issues.push({id:r.id+':BR-10:task:'+t.id,rule:'BR-10',severity:'Warning',owner:t.assignedTo||r.owner||'Coordinator',message:t.title+': task due date has passed',next:'Contact task owner; verify completion or revise due date',due:t.dueDate});
+    }
+    for(const issue of readiness.issues){
+      issues.push({id:r.id+':'+issue.rule+':'+(issue.taskId||'request'),rule:issue.rule,severity:remaining!==null&&remaining<=2?'Critical':remaining!==null&&remaining<=7?'Warning':'Action needed',owner:issue.owner,message:issue.message,next:issue.next,due:r.targetDate});
+    }
+    if(r.approval?.required && r.approval.decision==='Rejected')issues.push({id:r.id+':BR-07:rejected',rule:'BR-07',severity:remaining!==null&&remaining<=2?'Critical':'Warning',owner:r.owner||'Coordinator',message:'Approval rejected: '+(clean(r.approval.note)||'No rejection reason recorded'),next:'Address the reviewer’s concerns, then request a new decision from '+(r.approval.approver||'authorized reviewer'),due:r.targetDate});
+    else if(r.stage==='Ready for review' && r.approval?.required && !approvalOK(r))issues.push({id:r.id+':BR-07:approval',rule:'BR-07',severity:remaining!==null&&remaining<=2?'Critical':'Warning',owner:r.approval.approver||'Process owner',message:'Approval is still pending',next:'Request approval from '+(r.approval.approver||'authorized reviewer'),due:r.targetDate});
+    return issues;
+  };
+  const assess=(r,clock)=>{
+    const readiness=r.stage==='Cancelled'?{state:'Not applicable',reason:'Request cancelled; no further readiness work is required',issues:[]}:getReadiness(r),issues=riskIssues(r,clock);
+    const rank={'Critical':0,'Review needed':1,'Warning':2,'Action needed':3};issues.sort((a,b)=>(rank[a.severity]??9)-(rank[b.severity]??9)||a.id.localeCompare(b.id));
+    return {readiness,issues,risk:issues.length?issues[0].severity:(r.stage==='Closed'||r.stage==='Cancelled'?'Terminal':r.stage==='Delivered'?'Delivered':'No current exception')};
+  };
+  const newRequest=(values,id,clock='2026-11-23')=>{if(!validDay(clock))throw new RangeError('Choose a valid scenario date before creating a request');const limitError=requestTextError(values);if(limitError)throw new RangeError(limitError.message);if(clean(values.targetDate)&&!validDay(values.targetDate))throw new RangeError('Target date must be a valid date between 2000 and 2100');return ({id,title:clean(values.title),type:clean(values.type)||'Service request',summary:clean(values.summary),owner:clean(values.owner),targetDate:values.targetDate||'',stage:'Submitted',createdAt:stamp(clock),updatedAt:stamp(clock),tasks:[],approval:{required:null,approver:'',decision:'Undetermined',note:'',policyReason:'',policyDecidedBy:'',policyDecidedAt:'',basis:'',decisionAt:'',decisionBy:'',waiver:null},delivery:{date:'',evidence:''},closeout:{actor:'',reason:''},events:[],consistencyWarning:''});};
+  const setApprovalPolicy=(r,{required,reason='',approver='',actor='Demo process owner',actorRole,clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(delivered(r)||r.stage==='Cancelled')return fail('LOCKED','Delivered or terminal records cannot change approval policy');
+    if(typeof required!=='boolean'||!clean(reason)||!clean(actor))return fail('POLICY','Make an explicit yes/no approval determination and record the reason and actor');
+    if(required&&!clean(approver))return fail('APPROVER','Select a reviewer when approval is required');
+    const limitError=textError([['Policy rationale',reason,180],['Reviewer',approver,100],['Actor',actor,100]]);if(limitError)return limitError;
+    // Both labels denote the same fictional process-owner role (legacy engine calls omit actorRole).
+    // This is a demo action boundary only, not authenticated access control.
+    if(!['Demo process owner','Process owner'].includes(clean(actor))||(actorRole!==undefined&&actorRole!=='Process owner (simulated)'))return fail('AUTH','Only the designated simulated process owner may determine or change approval policy');
+    if(policyOK(r) && r.approval.required===required && clean(r.approval.approver)===(required?clean(approver):'') && clean(r.approval.policyReason)===clean(reason))return required&&!independentReviewer(r,approver)?independenceError():ok({record:r});
+    if(r.approval?.decision==='Rejected')return fail('REJECTED','An explicit rejection cannot be cleared or reassigned through approval policy changes. Address the concerns and obtain a new decision from the configured reviewer.');
+    if(required&&!independentReviewer(r,approver))return independenceError();
+    const updated=clone(r);const prior=updated.approval||{};
+    updated.approval={required,approver:required?clean(approver):'',decision:required?'Pending':'Not applicable',policyReason:clean(reason),policyDecidedBy:clean(actor),policyDecidedAt:stamp(clock),decisionAt:'',decisionBy:'',note:'',waiver:null,basis:''};
+    updated.events=[...(updated.events||[]),event(updated,'approval policy determined',JSON.stringify(prior),JSON.stringify(updated.approval),reason,actor,clock)];
+    if(['Ready for review','Approved'].includes(updated.stage)){const priorStage=updated.stage;updated.stage='In progress';updated.events.push(event(updated,'stage',priorStage,'In progress','Approval policy changed: readiness review must be repeated',actor,clock));}
+    updated.updatedAt=stamp(clock);return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const addTask=(r,task,{actor='Demo coordinator',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(delivered(r)||r.stage==='Cancelled')return fail('LOCKED','Cannot add tasks after delivery or terminal status');
+    const t=clone(task);
+    const taskTimeError=clockCheck({tasks:[t]},clock);if(taskTimeError)return taskTimeError;
+    const limitError=textError([['Task ID',t.id,100],['Task title',t.title,90],['Task owner',t.assignedTo,100],['Verification evidence',t.evidence,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(t.kind==='readiness'&&activeTask(t)&&r.approval?.decision==='Rejected' && [t.assignedTo,t.acceptedBy].some(v=>identity(v)===identity(r.approval.approver)))return independenceError();
+    if(!clean(t.id)||!clean(t.title)||!['readiness','closeout'].includes(t.kind))return fail('TASK','A unique task ID, title and valid category are required');
+    if((r.tasks||[]).some(x=>x.id===t.id))return fail('DUPLICATE','Task identifier already exists');
+    if(t.kind==='readiness'&&!validDay(t.dueDate))return fail('DATE','Required readiness task must have a valid due date');
+    if(t.dueDate&&!validDay(t.dueDate))return fail('DATE','Task due date is invalid');
+    const updated=clone(r);updated.tasks=[...(r.tasks||[]),t];
+    updated.events=[...(updated.events||[]),event(updated,'task added','',t.id,t.title,actor,clock)];
+    approvalReset(updated,'Readiness requirements changed',actor,clock);
+    if(t.kind==='readiness'&&activeTask(t))resetExemption(updated,'Required readiness scope changed; reassess exemption',actor,clock);
+    restartReview(updated,'New mandatory task added',actor,clock);
+    return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const updateTaskDueDate=(r,id,dueDate,{actor='Demo coordinator',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(delivered(r)||r.stage==='Cancelled')return fail('LOCKED','Task deadlines cannot be changed after delivery or terminal status');
+    const updated=clone(r),t=updated.tasks?.find(t=>t.id===id);if(!t)return fail('NOT_FOUND','Task not found');
+    if(!validDay(dueDate))return fail('DATE','Task deadline must be a valid date');
+    if(t.dueDate===dueDate)return ok({record:r});
+    const old=t.dueDate;t.dueDate=dueDate;
+    updated.events=[...(updated.events||[]),event(updated,'task deadline updated',old,dueDate,t.title,actor,clock)];
+    approvalReset(updated,'Required task scheduling changed',actor,clock);
+    if(requiredVerificationIds(r).has(t.id))resetExemption(updated,'Required readiness deadline changed; reassess exemption',actor,clock);
+    restartReview(updated,'Task deadline changed',actor,clock);
+    return ok({record:reconcile(updated,{actor,clock})});
+  };
+  const saveDelivery=(r,delivery,{actor='Demo coordinator',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(delivered(r)||r.stage==='Cancelled')return fail('LOCKED','Delivery record is locked after delivery; reopen to correct');
+    const limitError=textError([['Delivery evidence',delivery.evidence,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    const date=clean(delivery.date),evidence=clean(delivery.evidence);
+    if(date&&!validDay(date))return fail('DATE','Delivery date must be valid');
+    const updated=clone(r);updated.delivery={date,evidence};
+    updated.events=[...(updated.events||[]),event(updated,'delivery updated',JSON.stringify(r.delivery||{}),JSON.stringify(updated.delivery), 'Delivery data edited (simulated)',actor,clock)];return ok({record:reconcile(updated,{clock,actor})});
+  };
+  const saveCloseout=(r,closeout,{actor='Demo coordinator',clock='2026-11-23'}={})=>{
+    const timeError=clockCheck(r,clock);if(timeError)return timeError;
+    if(terminal(r))return fail('LOCKED','Closure record cannot be edited after terminal status');
+    if(r.stage!=='Delivered')return fail('SEQUENCE','Record delivery before entering closure information');
+    const openFollowup=taskIssues(r,'closeout');if(openFollowup.length)return fail('GATE','Complete required follow-up before entering closure information: '+openFollowup.map(issue=>issue.message).join('; '));
+    const limitError=textError([['Closure actor',closeout.actor,100],['Closure reason',closeout.reason,1000],['Actor',actor,100]]);if(limitError)return limitError;
+    if(!clean(closeout.actor)||!clean(closeout.reason))return fail('CLOSURE','Closure actor and reason are required; explain why no follow-up is needed if none is required');
+    const updated=clone(r);updated.closeout={actor:clean(closeout.actor),reason:clean(closeout.reason)};
+    updated.events=[...(updated.events||[]),event(updated,'closeout updated',JSON.stringify(r.closeout||{}),JSON.stringify(updated.closeout),'Closeout information updated',actor,clock)];return ok({record:reconcile(updated,{clock,actor})});
+  };
+  return {STAGES,ACTIVE,clone,validDay,dayDiff,stamp,checkIntake,dependencyCycle,dependencyBlockers,taskIssues,getReadiness,stageIssues,nextStages,changeStage,reconcile,completeTask,reopenTask,acceptTask,reassignTask,updateRequest,decideApproval,waiveApproval,riskIssues,assess,newRequest,setApprovalPolicy,policyOK,approvalBasis,addTask,updateTaskDueDate,saveDelivery,saveCloseout,independentReviewer};
+});
+
+</script><script>
+(function(root,factory){const api=factory(typeof module==='object'&&module.exports?require('./core.js'):root.ProgramOpsCore);if(typeof module==='object'&&module.exports)module.exports=api;if(root)root.ProgramOpsFixtures=api;})(typeof globalThis==='object'?globalThis:this,function(C){
+'use strict';
+const dateAdd=(day,n)=>new Date(Date.parse(day+'T12:00:00Z')+n*86400000).toISOString().slice(0,10);
+function task(id,title,assignedTo,{accepted=true,status='Open',kind='readiness',evidence='',dueDate='',dependsOn=[],required=true,applicable=true,evidenceRequired=true,clock='2026-11-23'}={}){
+ return {id,title,assignedTo,acceptedBy:accepted?assignedTo:'',acceptedAt:accepted?C.stamp(clock):'',dueDate,status,kind,required,applicable,evidenceRequired,evidence,dependsOn,completedAt:status==='Complete'?C.stamp(clock):''};
+}
+function fixture(id,title,{clock='2026-11-23',offset=2,stage='In progress',type='Stakeholder meeting',owner='Morgan Reed',approvalRequired=true}={}){
+ const r=C.newRequest({title,type,owner,targetDate:dateAdd(clock,offset),summary:'Illustrative multi-team coordination request. Every person and record is fictional.'},id,clock);
+ r.stage=stage;
+ r.tasks=[
+  task('agenda','Agenda confirmed','Morgan Reed',{clock,status:'Complete',evidence:'Agenda reviewed and recorded',dueDate:dateAdd(clock,offset-2)}),
+  task('it','Technology test','Taylor Brooks',{clock,status:'Open',dueDate:dateAdd(clock,offset-1)}),
+  task('vendor','Vendor access confirmed','Casey Shah',{clock,status:'Complete',evidence:'Fictional access confirmation',dueDate:dateAdd(clock,offset-1)}),
+  task('presenter','Presenter readiness','Jesse Park',{clock,status:'Complete',evidence:'Presenter acknowledged briefing',dueDate:dateAdd(clock,offset-1),dependsOn:['agenda']}),
+  task('followup','Post-delivery follow-up','Morgan Reed',{clock,kind:'closeout',dueDate:dateAdd(clock,offset+1)})
+ ];
+ r.approval={required:approvalRequired,approver:approvalRequired?'Avery Chen':'',decision:approvalRequired?'Pending':'Not applicable',policyReason:approvalRequired?'Illustrative program requires review':'Illustrative low-risk request does not require approval',policyDecidedBy:'Demo process owner',policyDecidedAt:C.stamp(clock),decisionAt:'',decisionBy:'',note:'',waiver:null,basis:''};
+ return r;
+}
+function starter(clock='2026-11-23'){
+ const a=fixture('OPS-101','Executive stakeholder briefing',{clock,offset:2});
+ const b=fixture('OPS-102','Facilities access coordination',{clock,offset:5,owner:'Jesse Park'});
+ b.tasks[1].acceptedBy='';b.tasks[1].acceptedAt='';b.tasks[2].status='Open';b.tasks[2].evidence='';b.tasks[2].completedAt='';
+ const c=fixture('OPS-103','Community program meeting',{clock,offset:9,owner:'Casey Shah',approvalRequired:false});
+ c.tasks[1].status='Complete';c.tasks[1].completedAt=C.stamp(clock);c.tasks[1].evidence='Technology checklist verified';c.stage='Ready for review';
+ const deliveredDay=dateAdd(clock,-1);
+ const d=fixture('OPS-104','Equipment handoff',{clock:deliveredDay,offset:0,stage:'Delivered',owner:'Taylor Brooks'});
+ d.tasks[1].status='Complete';d.tasks[1].completedAt=C.stamp(deliveredDay);d.tasks[1].evidence='Equipment tested';d.approval.decision='Approved';d.approval.decisionBy=d.approval.approver;d.approval.decisionAt=C.stamp(deliveredDay);d.approval.basis=C.approvalBasis(d);d.delivery={date:deliveredDay,evidence:'Handoff receipt recorded',recordedAt:C.stamp(deliveredDay)};
+ const e=fixture('OPS-105','Training coordination',{clock,offset:15,stage:'Submitted'});
+ e.owner='';e.targetDate='';
+ return [a,b,c,d,e];
+}
+return {dateAdd,task,fixture,starter};
+});
+
+</script><script>
+/* Stage 3 portfolio interface: all data fictional; local-only, simulated actors. */
+(function(){'use strict';
+const C=window.ProgramOpsCore,F=window.ProgramOpsFixtures;
+const KEY='programops-stage3-v2';
+const now=new Date();const clockToday=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');
+let storedRaw=null,storageProblem='',storageAvailable=true,stale=false;
+const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
+const strings=(o,keys)=>keys.every(k=>o[k]==null||typeof o[k]==='string');
+let state=load(),activeId=state.records[0]?.id||null,view='workspace';
+let renderedId=null,defaults=new Map(),parkedDrafts=new Map();
+function validRecord(r){
+ return object(r)&&typeof r.id==='string'&&r.id.trim()&&C.STAGES.includes(r.stage)&&typeof r.title==='string'&&strings(r,['title','type','owner','summary','targetDate','createdAt','updatedAt','consistencyWarning'])&&
+ Array.isArray(r.tasks)&&r.tasks.every(t=>object(t)&&typeof t.id==='string'&&t.id.trim()&&['Open','Complete'].includes(t.status)&&['readiness','closeout'].includes(t.kind)&&strings(t,['title','assignedTo','acceptedBy','acceptedAt','dueDate','status','kind','evidence','completedAt'])&&Array.isArray(t.dependsOn)&&t.dependsOn.every(d=>typeof d==='string'))&&new Set(r.tasks.map(t=>t.id)).size===r.tasks.length&&
+ Array.isArray(r.events)&&r.events.every(e=>object(e)&&typeof e.at==='string'&&Number.isFinite(Date.parse(e.at))&&strings(e,['id','type','actor','reason','before','after']))&&
+ object(r.approval)&&strings(r.approval,['approver','decision','policyReason','policyDecidedBy','policyDecidedAt','decisionAt','decisionBy','note','basis'])&&(r.approval.waiver==null||object(r.approval.waiver)&&strings(r.approval.waiver,['at','actor','reason','scope']))&&
+ object(r.delivery)&&strings(r.delivery,['date','evidence','recordedAt'])&&object(r.closeout)&&strings(r.closeout,['actor','reason']);
+}
+function decode(raw,clock){
+ storageProblem='';
+ if(raw===null)return {version:2,clock,records:F.starter(clock)};
+ let s;try{s=JSON.parse(raw);}catch(e){}
+ if(!object(s)||s.version!==2||!Array.isArray(s.records)){
+  storageProblem='Saved data is unreadable. Original browser storage has been preserved. Use the confirmed Reset action under How it works to start over.';
+  return {version:2,clock,records:[]};
+ }
+ const used=new Set(),records=s.records.map((r,i)=>{
+  if(validRecord(r)&&!used.has(r.id)){used.add(r.id);return r;}
+  storageProblem='Some saved records are malformed. All changes are blocked to protect the original data. Use the confirmed Reset action under How it works to start over.';
+  let id=object(r)&&typeof r.id==='string'&&r.id&&!used.has(r.id)?r.id:'Damaged-'+(i+1);while(used.has(id))id+='-';used.add(id);
+  const safe=C.newRequest({title:object(r)&&typeof r.title==='string'&&r.title.trim().length<=100?r.title:'Unreadable saved record'},id,clock);
+  safe.stage='Needs information';safe.consistencyWarning='Saved record malformed. This is a read-only placeholder; the original data is preserved in browser storage.';return safe;
+ });
+ return {version:2,clock,records};
+}
+function load(){try{storedRaw=localStorage.getItem(KEY);return decode(storedRaw,clockToday);}catch(e){storageAvailable=false;return {version:2,clock:clockToday,records:F.starter(clockToday)};}}
+function storageNotice(){const el=$('storageNotice');if(!el)return;const msg=storageProblem||(stale?'Another tab changed saved data. Your unsaved entries are still here, but saving is blocked. Copy any needed drafts, then reload this page.':!storageAvailable?'Browser storage is unavailable. Changes are temporary and may be lost when this page closes.':'');el.textContent=msg;el.hidden=!msg;}
+function persist(){try{const raw=JSON.stringify(state);localStorage.setItem(KEY,raw);storedRaw=raw;storageAvailable=true;}catch(e){storageAvailable=false;}storageNotice();}
+function synchronize(raw){const dirty=drafts().length||parkedDrafts.size||$('createDialog').open;if(dirty||(!storageAvailable&&state.records.length)){stale=true;storageNotice();return false;}
+ storedRaw=raw;stale=false;state=decode(raw,state.clock);if(!current())activeId=state.records[0]?.id||null;render();storageNotice();return true;
+}
+function guard({reset=false}={}){
+ if(stale){show('Another tab has changed saved data. Reload before editing; your current unsaved entries have been retained.');return false;}
+ try{const raw=localStorage.getItem(KEY);if(raw!==storedRaw){synchronize(raw);show('Saved data changed in another tab. Review the latest records and repeat your action.');return false;}}catch(e){storageAvailable=false;storageNotice();}
+ if(storageProblem&&!reset){show('Saved data is malformed. Changes are blocked to preserve the original records.');return false;}return true;
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+const $=id=>document.getElementById(id);
+function issueClass(t){return ({Critical:'critical',Warning:'warning','Action needed':'action','Review needed':'review',Ready:'ready',Terminal:'terminal',Delivered:'terminal','No current exception':'ready',Complete:'ready',Blocked:'warning','Not applicable':'terminal'})[t]||'';}
+function badge(t){return `<span class="tag ${issueClass(t)}">${esc(t)}</span>`;}
+function show(msg,good=false){const el=$('feedback');el.hidden=false;el.className='feedback'+(good?' success':'');el.innerHTML=`<strong>${good?(storageAvailable?'Saved':'Applied temporarily'):'Action blocked or needs attention'}</strong>${esc(msg)}`;$('announcement').textContent=(good?(storageAvailable?'Saved: ':'Applied temporarily: '):'Action blocked or needs attention: ')+msg;if(!document.activeElement?.closest('#details'))el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function clearFeedback(){$('feedback').hidden=true;$('announcement').textContent='';}
+function days(r){
+ if(r.stage==='Cancelled')return 'Cancelled';
+ if(['Delivered','Closed'].includes(r.stage)){
+   if(!C.validDay(r.delivery?.date))return 'Delivery date needs review';
+   const d=C.dayDiff(r.targetDate,r.delivery.date);
+   return d==null?'Delivery dates need review':d===0?'Delivered on time':d<0?`Delivered ${-d} day(s) late`:`Delivered ${d} day(s) early`;
+ }
+ const d=C.dayDiff(r.targetDate,state.clock);return d==null?'Date needs review':d===0?'Due today':d<0?`${-d} day(s) overdue`:`In ${d} day(s)`;
+}
+function stageLabel(r){
+ if(r.stage==='Approved'&&r.approval?.required===false)return 'Cleared for delivery (approval not required)';
+ if(r.stage==='Approved'&&r.approval?.decision==='Waived')return 'Cleared for delivery (documented waiver)';
+ return r.stage;
+}
+function current(){return state.records.find(r=>r.id===activeId);}
+function cssEscape(v){return String(v).replace(/[^a-zA-Z0-9_-]/g,ch=>'\\'+ch.codePointAt(0).toString(16)+' ');}
+function selector(el){if(!el||!el.matches)return '';if(el.id)return '#'+cssEscape(el.id);const attrs=['data-task-date','data-task-owner','data-evidence','data-date-save','data-reassign','data-accept','data-complete','data-reopen','data-stage','data-decision','data-waiver','data-open'];for(const a of attrs)if(el.hasAttribute(a))return '['+a+'="'+cssEscape(el.getAttribute(a))+'"]';if(el.form?.id){const prefix='#'+cssEscape(el.form.id);if(el.name)return prefix+' [name="'+cssEscape(el.name)+'"]';if(el.matches('button[type=submit]'))return prefix+' button[type=submit]';}return '';}
+function detailFields(){return [...$('details').querySelectorAll('input,select,textarea')].filter(e=>!e.disabled&&selector(e));}
+function drafts(){return detailFields().map(e=>[selector(e),e.value]).filter(([k,v])=>defaults.has(k)&&defaults.get(k)!==v);}
+function discardOkay(){return !drafts().length||confirm('This stage change may remove unsaved fields. Discard those entries and continue?');}
+function parkDrafts(){if(renderedId==null)return;const d=drafts();if(d.length)parkedDrafts.set(renderedId,d);else parkedDrafts.delete(renderedId);}
+function change(record,notice,consumed=''){if(!guard())return false;if(consumed!=='#approvalNote'&&drafts().some(([k])=>k==='#approvalNote')&&!(C.policyOK(record)&&record.approval?.required)&&!confirm('This change removes the approval explanation field. Discard the unsaved explanation?'))return false;if(!guard())return false;const idx=state.records.findIndex(r=>r.id===record.id);if(idx<0)return false;state.records[idx]=record;persist();const lost=render(consumed);if(notice)show(notice+(lost?' Some unsaved entries no longer apply to this stage; review the changed controls.':''),true);return true;}
+function apply(result,success,consumed=''){if(!result.ok){show(result.message);return false;}return change(result.record,success,consumed);}
+function metrics(){const active=state.records.filter(r=>C.ACTIVE.has(r.stage)&&r.stage!=='Delivered');const reports=state.records.map(r=>C.assess(r,state.clock));const critical=reports.filter(a=>a.issues.some(x=>x.severity==='Critical')).length;const ready=active.filter(r=>['Ready for review','Approved'].includes(r.stage)&&C.getReadiness(r).state==='Ready'&&r.approval?.decision!=='Rejected'&&C.policyOK(r)&&!C.stageIssues(r,r.stage,state.clock).length).length;const issues=reports.reduce((n,a)=>n+a.issues.length,0);$('metrics').innerHTML=[['Active requests',active.length,'Pre-delivery; excludes delivered and terminal'],['Critical requests',critical,'At least one critical blocker, including historical conflicts'],['Readiness verified',ready,'In review or cleared; task verification is not approval'],['Open exceptions',issues,'All computed issues, including closeout and historical conflicts']].map(([label,value,desc])=>`<div class="metric"><div class="label">${label}</div><div class="value">${value}</div><div class="desc">${desc}</div></div>`).join('');}
+function renderList(){const q=$('search').value.trim().toLowerCase(),filter=$('filter').value;
+ const matches=state.records.filter(r=>{const a=C.assess(r,state.clock),terminal=['Closed','Cancelled'].includes(r.stage);if(filter==='open'&&terminal||filter==='terminal'&&!terminal||filter==='attention'&&!a.issues.length)return false;return (r.id+' '+r.title+' '+r.owner).toLowerCase().includes(q);});
+ $('countBadge').textContent=`${matches.length} of ${state.records.length}`;
+ $('requests').innerHTML=matches.map(r=>{const a=C.assess(r,state.clock);return `<button class="item ${r.id===activeId?'selected':''}" data-open="${esc(r.id)}"><strong>${esc(r.title||'(Untitled request)')}</strong><div class="meta"><span>${esc(r.id)} · ${esc(r.owner||'Unassigned')}</span>${badge(a.risk)}</div><div class="meta"><span>${esc(stageLabel(r))}</span><span>${esc(days(r))}</span></div></button>`;}).join('')||'<div class="empty">No matching requests.</div>';
+}
+function taskBadge(r,t){
+ if(r.stage==='Cancelled'||t.applicable===false)return 'Not applicable';
+ if(t.kind==='readiness'&&t.required!==false&&!C.validDay(t.dueDate))return 'Review needed';
+ const issues=C.taskIssues(r,t.kind).filter(i=>i.taskId===t.id);
+ if(C.dependencyBlockers(r,t).length)return 'Blocked';
+ if(t.status==='Complete')return issues.length||!t.assignedTo||t.acceptedBy!==t.assignedTo||t.evidenceRequired!==false&&!String(t.evidence||'').trim()?'Review needed':'Complete';
+ const d=C.dayDiff(t.dueDate,state.clock),target=C.dayDiff(r.targetDate,state.clock);
+ return (d!==null&&d<0||target!==null&&target<=2&&t.kind==='readiness')&&t.required!==false?'Critical':'Action needed';
+}
+function details(){const r=current();if(!r){$('detailTitle').textContent='No request selected';$('details').innerHTML='<div class="empty">Create or choose a request.</div>';$('detailRisk').textContent='';return;}
+ const a=C.assess(r,state.clock),readiness=a.readiness,locked=['Delivered','Closed','Cancelled'].includes(r.stage),terminal=['Closed','Cancelled'].includes(r.stage);
+ $('detailTitle').textContent=r.title||'Request details';$('detailSubtitle').textContent=r.id+' · '+stageLabel(r)+' · '+days(r);$('detailRisk').className='tag '+issueClass(a.risk);$('detailRisk').textContent=a.risk;
+ let html=`<div class="badge-row"><span class="tag">Stage: ${esc(stageLabel(r))}</span>${r.approval?.decision==='Rejected'?'<span class="tag warning">Approval rejected</span>':badge(readiness.state)}<span class="tag">${!C.policyOK(r)?'Approval policy undecided':r.approval.required?'Approval required':'Approval not required (documented)'}</span></div>`;
+ if(r.consistencyWarning)html+=`<div class="rule critical"><b>Historical inconsistency</b><small>${esc(r.consistencyWarning)}</small></div>`;
+ html+=`<form id="requestForm"><div class="sechead"><h3>Request details</h3><span class="hint">${locked?'Delivered or terminal record: details locked':'Changes invalidate prior approvals when material'}</span></div>${locked?'':'<p class="hint">Unsaved fields are retained in this tab when switching requests. Save before reloading.</p>'}<div class="field-grid"><label class="field span2">Request title<input name="title" required value="${esc(r.title)}" maxlength="100" ${locked?'disabled':''}></label><label class="field">Request type<select name="type" ${locked?'disabled':''}>${['Stakeholder meeting','Facilities request','Service request','Equipment installation','Internal project'].map(s=>`<option value="${esc(s)}" ${r.type===s?'selected':''}>${esc(s)}</option>`).join('')}</select></label><label class="field">Coordinator (fictional)<select name="owner" ${locked?'disabled':''}><option value="">Unassigned</option>${['Morgan Reed','Taylor Brooks','Jesse Park','Casey Shah','Avery Chen'].map(s=>`<option value="${s}" ${r.owner===s?'selected':''}>${s}</option>`).join('')}</select></label><label class="field">Target date<input type="date" min="2000-01-01" max="2100-12-31" name="targetDate" value="${esc(r.targetDate)}" ${locked?'disabled':''}></label><label class="field span2">Summary<input name="summary" value="${esc(r.summary)}" maxlength="180" ${locked?'disabled':''}></label></div>${locked?'':'<div class="actions" style="margin-top:10px"><button class="primary" type="submit">Save request details</button></div>'}</form>`;
+ html+=`<div class="sechead"><h3>Outstanding requirements</h3><span class="tag ${r.approval?.decision!=='Rejected'&&readiness.state==='Ready'?'ready':'warning'}">${esc(r.approval?.decision==='Rejected'?'Approval rejected':readiness.state)}</span></div>`;
+ html+=`<p class="hint">${esc(readiness.reason)}. Tasks are not complete until the assigned owner has accepted the handoff and supporting evidence is recorded.</p>`;
+ const required=r.tasks||[];
+ html+=required.map(t=>{const accepted=t.assignedTo&&t.acceptedBy===t.assignedTo;
+ const isOpen=t.status!=='Complete';
+ return `<div class="task"><div class="task-head"><span class="task-title">${esc(t.title)}</span>${badge(taskBadge(r,t))}</div><div class="task-meta">${esc(t.kind==='closeout'?'Closeout':'Readiness')} · ${t.applicable===false?'Not applicable':t.required!==false?'Required':'Optional'} · ${esc(t.dueDate||'No task due date')} · ${t.dependsOn?.length?'Depends on '+esc(t.dependsOn.join(', ')):'No prerequisites'}</div>${!locked?`<div class="task-actions"><label class="field">Task due date<input type="date" min="2000-01-01" max="2100-12-31" data-task-date="${esc(t.id)}" value="${esc(t.dueDate)}"></label><button type="button" data-date-save="${esc(t.id)}" aria-label="Update deadline ${esc(t.title)} (${esc(t.id)})">Update deadline</button></div>`:''}<div class="task-meta">Assigned: <strong>${esc(t.assignedTo||'Unassigned')}</strong> · Handoff: ${accepted?'Accepted':'Awaiting acceptance'} · Recorded status: ${esc(t.status)}</div>${t.evidence?`<div class="hint">Evidence: ${esc(t.evidence)}</div>`:''}<div class="task-actions">${locked?'':`<label class="field">Assign / reassign<select data-task-owner="${esc(t.id)}"><option value="">Unassigned</option>${['Morgan Reed','Taylor Brooks','Jesse Park','Casey Shah','Avery Chen'].map(s=>`<option value="${s}" ${t.assignedTo===s?'selected':''}>${s}</option>`).join('')}</select></label>`}${locked?'':`<button type="button" data-reassign="${esc(t.id)}" aria-label="Assign ${esc(t.title)} (${esc(t.id)})">Assign</button>`}${!locked&&!accepted&&t.assignedTo?`<button type="button" data-accept="${esc(t.id)}" aria-label="Accept as owner for ${esc(t.title)} (${esc(t.id)})">Accept as owner*</button>`:''}${!isOpen&&!terminal&&!(r.stage==='Delivered'&&t.kind==='readiness')?`<button type="button" data-reopen="${esc(t.id)}" aria-label="Reopen task (explain why) — ${esc(t.title)} (${esc(t.id)})">Reopen task (explain why)</button>`:''}${isOpen&&!terminal&&!(r.stage==='Delivered'&&t.kind==='readiness')?`<label class="field">Verification evidence<input data-evidence="${esc(t.id)}" maxlength="1000" placeholder="What confirms it is done?"></label><button type="button" class="primary" data-complete="${esc(t.id)}" aria-label="Complete ${esc(t.title)} (${esc(t.id)})">Complete</button>`:''}</div>${!accepted&&t.assignedTo?'<div class="hint">*Simulated acceptance; no identity verification</div>':''}</div>`;}).join('')||'<div class="empty">No tasks defined. Add requirements before moving forward.</div>';
+ if(!locked)html+=`<details><summary class="anchor" style="cursor:pointer">Add a requirement or closeout task</summary><form id="taskForm"><div class="field-grid" style="margin-top:10px"><label class="field span2">Task title<input name="title" required maxlength="90" placeholder="e.g. Confirm vendor access"></label><label class="field">Category<select name="kind"><option value="readiness">Readiness</option><option value="closeout">Closeout</option></select></label><label class="field">Assigned to<select name="assignedTo"><option value="">Unassigned</option>${['Morgan Reed','Taylor Brooks','Jesse Park','Casey Shah','Avery Chen'].map(s=>`<option>${s}</option>`).join('')}</select></label><label class="field">Task due date<input name="dueDate" type="date" min="2000-01-01" max="2100-12-31" value="${esc(r.targetDate)}"></label></div><div class="actions" style="margin-top:10px"><button type="submit">Add required task</button></div></form></details>`;
+ html+=`<hr class="section-divider"><div class="sechead"><h3>Approval policy</h3><span class="hint">${C.policyOK(r)?'Explicit policy recorded':'Decision required before review'}</span></div><p class="hint">Policy owner (simulated): ${esc(r.approval?.policyDecidedBy||'Not yet recorded')} · Rationale: ${esc(r.approval?.policyReason||'Not provided')}</p>`;
+ if(!locked)html+=`<form id="policyForm"><div class="field-grid"><label class="field">Approval determination<select name="required"><option value="undetermined" ${r.approval?.required==null?'selected':''}>Choose policy</option><option value="yes" ${r.approval?.required===true?'selected':''}>Approval required</option><option value="no" ${r.approval?.required===false?'selected':''}>No approval required</option></select></label><label class="field">Simulated reviewer<select name="approver"><option value="">None selected</option>${['Avery Chen','Morgan Reed','Taylor Brooks','Jesse Park','Casey Shah'].map(s=>`<option value="${s}" ${r.approval?.approver===s?'selected':''} ${!C.independentReviewer(r,s)?'disabled':''}>${s}${!C.independentReviewer(r,s)?' (not independent)':''}</option>`).join('')}</select></label><label class="field span2">Policy rationale<input name="reason" required maxlength="180" placeholder="Why is approval required or not required?" value="${esc(r.approval?.policyReason||'')}"></label></div><button style="margin-top:9px" type="submit">Save policy determination*</button></form><p class="hint">*Acts as the designated simulated process owner. Choose a reviewer independent of the coordinator and required readiness contributors. Policy changes cannot override a rejection. No real access control.</p>`;
+ html+=`<div class="sechead"><h3>Approval and completion</h3></div>`;
+ if(C.policyOK(r)&&r.approval?.required){html+=`<p class="hint">Authorized reviewer (simulated): ${esc(r.approval.approver)} · Decision: ${esc(r.approval.decision)}</p>${r.approval.decision==='Rejected'?`<p class="hint">Previous rejection: ${esc(r.approval.note||'No reason recorded')}. Address the concerns before seeking a new decision.</p>`:''}<div class="field-grid"><label class="field span2">Approval decision explanation<input id="approvalNote" maxlength="1000" value="${esc(r.approval.decision==='Rejected'?'':r.approval.note||'')}" placeholder="Reason for approval or rejection"></label></div>${locked?'':`<div class="actions" style="margin-top:9px"><button data-decision="Approved">Approve as reviewer*</button><button data-decision="Rejected">Reject as reviewer*</button><button data-waiver="approval" title="Simulated process-owner role only">Waive approval*</button></div>`}<p class="hint">*Simulated authorization, for scenario testing only. Not a production security control.</p>`;}
+ else html+=C.policyOK(r)?'<p class="hint">An explicit policy determination states that approval is not applicable.</p>':'<p class="hint">Approval policy has not been determined. Review and record it before advancing to Ready for review.</p>';
+ if(!locked)html+=`<form id="deliveryForm"><div class="sechead"><h3>Delivery confirmation</h3></div><div class="field-grid"><label class="field">Delivery date<input type="date" min="2000-01-01" max="2100-12-31" name="date" value="${esc(r.delivery?.date||'')}"></label><label class="field span2">Delivery evidence<input name="evidence" maxlength="1000" value="${esc(r.delivery?.evidence||'')}" placeholder="e.g. Verified handoff receipt"></label></div><button style="margin-top:9px" type="submit">Save delivery evidence</button></form>`;
+ if(r.stage==='Delivered')html+=`<form id="closeForm"><div class="sechead"><h3>Closure record</h3></div>${!r.tasks.some(t=>t.kind==='closeout'&&t.required!==false&&t.applicable!==false)?'<p class="hint">No required follow-up tasks. Explain in the closure reason why no follow-up is needed.</p>':''}<div class="field-grid"><label class="field">Closure actor (fictional)<input name="actor" required maxlength="100" value="${esc(r.closeout?.actor||'')}"></label><label class="field span2">Closure reason<input name="reason" required maxlength="1000" value="${esc(r.closeout?.reason||'')}" placeholder="What confirms all follow-up is resolved?"></label></div><button style="margin-top:9px" type="submit">Save closure details</button></form>`;
+ html+=`<hr class="section-divider"><div class="sechead"><h3>Advance work stage</h3></div><p class="hint">The stage cannot be forced ahead. Each transition runs the readiness, approval and delivery gates.</p>${r.stage==='Needs information'?'<p class="hint">Use Summary to document the information needed and who should provide it. Request it outside this demo; automated follow-ups and aging are not provided.</p>':''}<div class="stage-actions">${(C.nextStages[r.stage]||[]).map(s=>`<button type="button" ${s==='Cancelled'?'class="danger"':''} data-stage="${esc(s)}">${esc(s==='Cancelled'?'Cancel request':'Move to '+s)}</button>`).join('')||'<span class="hint">No additional stage transitions from this terminal status.</span>'}</div>`;
+ html+=`<details style="margin-top:18px"><summary class="anchor" style="cursor:pointer">View simulated change history (${r.events?.length||0})</summary><div>${(r.events||[]).slice().reverse().map(e=>`<div class="event"><span>${esc(e.at.slice(0,10))}</span><div><b>${esc(e.type)}</b> · ${esc(e.actor)}<br><span>${esc(e.reason||'Updated')}</span>${e.before!==''&&e.before!=null?`<div class="hint">Before: ${esc(e.before)}</div>`:''}${e.after!==''&&e.after!=null?`<div class="hint">After: ${esc(e.after)}</div>`:''}</div></div>`).join('')||'<p class="hint">No recorded changes yet.</p>'}</div><p class="hint">Event labels are illustrative, not trustworthy proof of identity.</p></details>`;
+ $('details').innerHTML=html;
+}
+function renderExceptions(){const all=state.records.flatMap(r=>C.riskIssues(r,state.clock).map(x=>({...x,request:r})));
+ const rank={Critical:0,'Review needed':1,Warning:2,'Action needed':3};all.sort((a,b)=>(rank[a.severity]??9)-(rank[b.severity]??9)||a.request.id.localeCompare(b.request.id));
+ $('exceptionContent').innerHTML=`<p class="sub">${all.length} open, computed exceptions across ${state.records.length} fictional requests. Status is calculated, not manually entered.</p>`+all.map(i=>`<div class="rule ${issueClass(i.severity)}"><div class="badge-row">${badge(i.severity)}<b>${esc(i.request.title)} (${esc(i.request.id)})</b></div><small><strong>${esc(i.message)}</strong></small><small>Responsible actor: ${esc(i.owner)} · Date: ${esc(i.due||'Needs review')}</small><small>Next action: ${esc(i.next)}</small><button style="margin-top:8px" data-open="${esc(i.request.id)}">Inspect request</button></div>`).join('')||'<div class="empty">No open exceptions for these fictional records.</div>';
+}
+function render(consumed=''){
+ const same=renderedId===activeId, saved=same?drafts().filter(([k])=>!consumed||!(k===consumed||k.startsWith(consumed+' '))):(parkedDrafts.get(activeId)||[]), focus=selector(document.activeElement), open=same?new Map([...$('details').querySelectorAll('details')].map(e=>[e.querySelector('summary')?.textContent.replace(/ \(\d+\)$/,''),e.open])):new Map();
+ metrics();renderList();details();renderExceptions();renderedId=activeId;defaults=new Map(detailFields().map(e=>[selector(e),e.value]));let lost=0;
+ parkedDrafts.delete(activeId);for(const [k,v] of saved){const el=$('details').querySelector(k);if(el&&!el.disabled){el.value=v;}else lost++;}if(same){for(const section of $('details').querySelectorAll('details')){const label=section.querySelector('summary')?.textContent.replace(/ \(\d+\)$/,'');if(open.has(label))section.open=open.get(label);}}
+ if(focus&&document.activeElement===document.body){const el=document.querySelector(focus);if(el&&!el.disabled&&el.closest('.hide')===null)el.focus({preventScroll:true});else if(same&&$('detailTitle'))$('detailTitle').focus({preventScroll:true});}
+ storageNotice();$('clock').value=state.clock;$('footer').textContent='Scenario date: '+state.clock+(state.clock!==clockToday?' (manual override; today: '+clockToday+'; resets on reload)':' (today)');return lost;}
+function switchView(v){view=v;['workspace','exceptions','method'].forEach(id=>$(id).classList.toggle('hide',id!==v));document.querySelectorAll('[data-nav]').forEach(b=>{const selected=b.dataset.nav===v;b.classList.toggle('selected',selected);if(selected)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});$('pageTitle').textContent=({workspace:'Readiness & exception management',exceptions:'Actionable exceptions',method:'Method and limitations'})[v];$('pageSub').textContent=({workspace:'See what is missing, who owns it, and what should happen next.',exceptions:'Prioritized operational blockers, with owners and next actions.',method:'Why the workflow behaves this way and what remains unproven.'})[v];window.scrollTo({top:0,behavior:'instant'});}
+function create(){$('createForm').reset();$('createDialog').showModal();}
+
+function exportCsv(){const cols=['id','title','type','coordinator','target_date','stage','readiness','risk','exceptions','pending_tasks','approval_decision','pending_task_phase','delivery_date','delivery_outcome','scenario_date'];const rows=state.records.map(r=>{const a=C.assess(r,state.clock),phase=['Closed','Cancelled'].includes(r.stage)?'':r.stage==='Delivered'?'closeout':'readiness',historical=['Delivered','Closed'].includes(r.stage);return [r.id,r.title,r.type,r.owner,r.targetDate,stageLabel(r),a.readiness.state,a.risk,a.issues.length,phase?new Set(C.taskIssues(r,phase).map(i=>i.taskId)).size:'',r.approval?.decision||'',phase,historical?r.delivery?.date||'':'',historical?days(r):'',state.clock];});const csvSafe=v=>{const s=String(v??'');return /^[\s]*[=+\-@\t\r]/.test(s)?"'"+s:s;};const csv=[cols,...rows].map(row=>row.map(v=>'"'+csvSafe(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const url=URL.createObjectURL(new Blob(['\uFEFF',csv],{type:'text/csv;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='programops_stage3_fictional.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);show('Fictional summary exported. No real records included.',true);}
+// Global delegation keeps dynamic request controls keyboard-accessible and straightforward to test.
+document.addEventListener('click',ev=>{
+ const b=ev.target.closest('button');if(!b)return;
+ if(b.dataset.nav){switchView(b.dataset.nav);return;}
+ if(b.dataset.open){if(activeId!==b.dataset.open)parkDrafts();activeId=b.dataset.open;render();switchView('workspace');const selected=document.querySelector('button.item[data-open="'+cssEscape(activeId)+'"]');(selected||$('detailTitle')).focus({preventScroll:true});clearFeedback();return;}
+ if(b.id==='create'){if(guard())create();return;}
+ if(b.id==='cancelCreate'){$('createDialog').close();return;}
+ if(b.id==='export'){if(guard())exportCsv();return;}
+ if(b.id==='reset'){if(guard({reset:true})&&confirm('Reset all locally stored fictional changes? This cannot be undone.')&&guard({reset:true})){storageProblem='';parkedDrafts.clear();renderedId=null;state={version:2,clock:clockToday,records:F.starter(clockToday)};activeId=state.records[0].id;persist();render();switchView('workspace');show('All fictional records reset.',true);}return;}
+ if(b.dataset.scenario){if(!guard()||!confirm('Load this scenario and replace all local records and unsaved entries?')||!guard())return;const s=b.dataset.scenario;let records;try{records=F.starter(state.clock);}catch(e){show('Choose a scenario date farther from the supported date boundaries before loading a scenario. Existing records retained.');return;}parkedDrafts.clear();renderedId=null;state.records=records;const map={falsegreen:'OPS-101',handoff:'OPS-102',approval:'OPS-103',closeout:'OPS-104'};activeId=map[s];persist();render();switchView('workspace');show('Scenario loaded: '+s+'. Review the request and test the next stage.',true);return;}
+ const r=current();if(!r)return;
+ if(!b.closest('#details'))return;if(!guard()){ev.preventDefault();return;}
+ if(b.dataset.stage){let reason='';if(['Delivered','Closed'].includes(b.dataset.stage)&&!discardOkay())return;if(b.dataset.stage==='Cancelled'){const input=prompt('Cancellation reason (fictional):');if(input===null)return;reason=input.trim();if(!reason){show('Cancellation requires a reason.');return;}if(!confirm('Permanently cancel this request? This cannot be undone.'))return;}else if(r.stage==='Delivered'&&b.dataset.stage==='In progress'){reason=prompt('Why must this delivered request be reopened? (fictional)')||'';}apply(C.changeStage(r,b.dataset.stage,{actor:'Demo coordinator',reason,clock:state.clock}),b.dataset.stage+' transition recorded.');return;}
+ if(b.dataset.reopen){const reason=prompt('Why must this completed task be reopened? (fictional)')||'';apply(C.reopenTask(r,b.dataset.reopen,{actor:'Demo coordinator',reason,clock:state.clock}),'Task reopened with reason; previous evidence retained in the simulated history.');return;}
+ if(b.dataset.dateSave){const id=b.dataset.dateSave,dueDate=document.querySelector('[data-task-date="'+cssEscape(id)+'"]').value;apply(C.updateTaskDueDate(r,id,dueDate,{clock:state.clock}),'Task deadline updated; scheduling and approvals rechecked.','[data-task-date="'+cssEscape(id)+'"]');return;}
+ if(b.dataset.reassign){const id=b.dataset.reassign,owner=document.querySelector('[data-task-owner="'+cssEscape(id)+'"]').value;const evidenceKey='[data-evidence="'+cssEscape(id)+'"]';if(owner!==r.tasks.find(t=>t.id===id)?.assignedTo&&drafts().some(([k])=>k===evidenceKey)){show('Unsaved verification evidence belongs to the current assignment. Save or clear that entry before reassigning.');return;}const result=C.reassignTask(r,id,owner,{clock:state.clock});let message=owner?'Assignment updated; owner must accept the new handoff.':'Task unassigned; readiness will remain blocked.';if(result.ok&&result.record.stage!==r.stage&&result.record.stage==='In progress'){message+=' Request returned to In progress; renewed review is required.';if(result.record.approval?.decision==='Pending'&&r.approval?.decision!=='Pending')message+=' Approval reset to Pending.';}apply(result,message,'[data-task-owner="'+cssEscape(id)+'"]');return;}
+ if(b.dataset.accept){const t=r.tasks.find(t=>t.id===b.dataset.accept);apply(C.acceptTask(r,t.id,{actor:t.assignedTo,clock:state.clock}),'Owner accepted the handoff (simulated).');return;}
+ if(b.dataset.complete){const id=b.dataset.complete,evidence=document.querySelector('[data-evidence="'+cssEscape(id)+'"]').value;const t=r.tasks.find(t=>t.id===id);apply(C.completeTask(r,id,{actor:t.assignedTo||'Demo contributor',evidence,clock:state.clock}),'Verification recorded; readiness recalculated.','[data-evidence="'+cssEscape(id)+'"]');return;}
+ if(b.dataset.decision){const note=$('approvalNote').value;apply(C.decideApproval(r,{decision:b.dataset.decision,note,actor:r.approval.approver,clock:state.clock}),b.dataset.decision+' approval decision recorded (simulated).','#approvalNote');return;}
+ if(b.dataset.waiver){const reason=$('approvalNote').value;apply(C.waiveApproval(r,{actor:'Demo process owner',actorRole:'Process owner (simulated)',reason,scope:'approval',clock:state.clock}),'Scoped approval waiver recorded as a simulation.','#approvalNote');return;}
+});
+document.addEventListener('submit',ev=>{ev.preventDefault();const form=ev.target,fd=new FormData(form),r=current();if(!guard())return;
+ if(form.id==='createForm'){
+   const title=String(fd.get('title')||'').trim();if(!title){show('Request title is required');return;}
+   const id='OPS-'+String(Math.max(100,...state.records.map(x=>Number(x.id.slice(4))||100))+1);
+   let item;try{item=C.newRequest(Object.fromEntries(fd.entries()),id,state.clock);}catch(error){show(error.message);return;}
+   item.tasks=[F.task('agenda','Requirements confirmed','',{accepted:false,dueDate:item.targetDate}),F.task('handoff','Technical / vendor handoff','',{accepted:false,dueDate:item.targetDate}),F.task('closeout','Post-delivery follow-up','',{kind:'closeout',accepted:false})];
+   parkDrafts();state.records.unshift(item);activeId=id;persist();$('createDialog').close();render();switchView('workspace');show('Synthetic request created. Accept ownership and verify required tasks before marking it Ready.',true);return;
+ }
+ if(!r)return;
+ if(form.id==='requestForm'){apply(C.updateRequest(r,Object.fromEntries(fd.entries()),{clock:state.clock}),'Request updated and controls rechecked.','#requestForm');return;}
+ if(form.id==='deliveryForm'){apply(C.saveDelivery(r,{date:fd.get('date'),evidence:fd.get('evidence')},{clock:state.clock}),'Delivery information saved as a draft. The Delivered transition checks chronology, approval and readiness.','#deliveryForm');return;}
+ if(form.id==='closeForm'){apply(C.saveCloseout(r,{actor:fd.get('actor'),reason:fd.get('reason')},{clock:state.clock}),'Closeout details saved. Closure remains gated.','#closeForm');return;}
+ if(form.id==='policyForm'){const choice=String(fd.get('required'));if(!['yes','no'].includes(choice)){show('Choose whether approval is required or not required.');return;}apply(C.setApprovalPolicy(r,{required:choice==='yes',approver:fd.get('approver'),reason:fd.get('reason'),actor:'Demo process owner',actorRole:'Process owner (simulated)',clock:state.clock}),'Explicit approval policy recorded; workflow rechecked.','#policyForm');return;}
+ if(form.id==='taskForm'){const title=String(fd.get('title')||'').trim();const nums=(r.tasks||[]).map(t=>Number(String(t.id).replace(/^t-/,''))||0);const id='t-'+(Math.max(0,...nums)+1);const t=F.task(id,title,String(fd.get('assignedTo')||''),{kind:String(fd.get('kind')),dueDate:String(fd.get('dueDate')||''),accepted:false,clock:state.clock});apply(C.addTask(r,t,{clock:state.clock}),'Required task created. Its owner still needs to accept.','#taskForm');return;}
+});
+$('search').addEventListener('input',renderList);$('filter').addEventListener('change',renderList);
+$('clock').addEventListener('change',e=>{if(!guard()){e.target.value=state.clock;return;}if(!C.validDay(e.target.value)){e.target.value=state.clock;show('Choose a valid date');return;}state.clock=e.target.value;persist();render();show('Scenario evaluation date updated for this visit. Actions before the latest recorded event are blocked.',true);});
+window.addEventListener('storage',e=>{if(e.key===KEY||e.key===null){let raw;try{raw=localStorage.getItem(KEY);}catch(err){storageAvailable=false;storageNotice();return;}if(raw!==storedRaw)synchronize(raw);}});
+render();
+})();
+
+</script>
+</body></html>

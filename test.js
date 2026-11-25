@@ -1,0 +1,46 @@
+/* Automated workflow unit/acceptance checks. Run: node test.js */
+'use strict';
+const assert=require('node:assert/strict'), C=require('./core.js'),F=require('./fixtures.js');
+const CLOCK='2026-11-23';
+const records=[];
+function test(id, name, fn){try{fn();records.push({id,name,status:'PASS',detail:''});}catch(e){records.push({id,name,status:'FAIL',detail:e.stack||String(e)});}}
+function base(stage='In progress'){return F.fixture('TEST-1','Fictional coordination request',{clock:CLOCK,offset:2,stage});}
+function allTasksDone(r){const o=C.clone(r);for(const t of o.tasks.filter(t=>t.kind==='readiness')){t.assignedTo=t.assignedTo||'Morgan Reed';t.acceptedBy=t.assignedTo;t.status='Complete';t.evidence='Synthetic signed verification';}return o;}
+function approved(r){const o=allTasksDone(r);o.approval.decision='Approved';o.approval.decisionBy=o.approval.approver;o.approval.decisionAt=C.stamp(CLOCK);o.approval.basis=C.approvalBasis(o);return o;}
+const throwsGate=r=>assert.equal(r.ok,false);
+test('T01','Reject blank title at intake',()=>{const r=C.newRequest({title:'',type:'Service request',owner:'Test coordinator',targetDate:CLOCK},'T1',CLOCK);assert.ok(C.checkIntake(r).includes('title'));});
+test('T02','Cannot plan without a coordinator',()=>{const r=base('Submitted');r.owner='';const res=C.changeStage(r,'Planned');throwsGate(res);assert.match(res.message,/coordinator/);});
+test('T03','Cannot plan without target date',()=>{const r=base('Submitted');r.targetDate='';const res=C.changeStage(r,'Planned');throwsGate(res);assert.match(res.message,/target date/);});
+test('T04','Unowned mandatory task blocks readiness',()=>{const r=base();r.tasks[1].assignedTo='';r.tasks[1].acceptedBy='';const res=C.changeStage(r,'Ready for review');throwsGate(res);assert.match(res.message,/no assigned owner/);});
+test('T05','Assigned but not accepted blocks readiness',()=>{const r=allTasksDone(base());r.tasks[1].acceptedBy='';const res=C.changeStage(r,'Ready for review');throwsGate(res);assert.match(res.message,/not accepted/);});
+test('T06','Required verification evidence blocks task completion',()=>{const r=base();const res=C.completeTask(r,'it',{actor:'Taylor Brooks',evidence:''});throwsGate(res);assert.match(res.message,/evidence/);});
+test('T07','Readiness cannot be forced green',()=>{const r=base();const res=C.changeStage(r,'Ready for review');throwsGate(res);assert.equal(C.getReadiness(r).state,'Not ready');});
+test('T08','Verified tasks permit readiness',()=>{const r=allTasksDone(base());assert.equal(C.getReadiness(r).state,'Ready');assert.equal(C.changeStage(r,'Ready for review').ok,true);});
+test('T09','Incomplete prerequisite blocks dependent completion',()=>{const r=base();r.tasks.find(t=>t.id==='agenda').status='Open';const presenter=r.tasks.find(t=>t.id==='presenter');presenter.status='Open';const res=C.completeTask(r,'presenter',{actor:presenter.assignedTo,evidence:'Synthetic confirmation'});throwsGate(res);assert.match(res.message,/prerequisite/);});
+test('T10','Required approval cannot be skipped',()=>{const r=allTasksDone(base('Ready for review'));const res=C.changeStage(r,'Approved');throwsGate(res);assert.match(res.message,/Approval required/);});
+test('T11','Approval rejection returns to in progress',()=>{const r=allTasksDone(base('Ready for review'));const res=C.decideApproval(r,{decision:'Rejected',actor:r.approval.approver,note:'Agenda concerns'});assert.equal(res.ok,true);assert.equal(res.record.stage,'In progress');assert.ok(res.record.events.some(x=>x.type==='approval decision'));});
+test('T12','Unauthorized waiver rejected',()=>{const r=allTasksDone(base('Ready for review'));const res=C.waiveApproval(r,{actor:'Somebody',actorRole:'Coordinator',reason:'Skip'});throwsGate(res);assert.equal(res.code,'AUTH');});
+test('T13','Authorized scoped waiver recorded',()=>{const r=allTasksDone(base('Ready for review'));const res=C.waiveApproval(r,{actor:'Demo process owner',actorRole:'Process owner (simulated)',reason:'Approved policy exemption',scope:'approval'});assert.equal(res.ok,true);assert.equal(res.record.approval.waiver.scope,'approval');assert.equal(C.changeStage(res.record,'Approved').ok,true);});
+test('T14','Delivered requires date and evidence',()=>{const r=approved(base('Approved'));const res=C.changeStage(r,'Delivered');throwsGate(res);assert.match(res.message,/Delivery date and evidence/);});
+test('T15','Closed blocked by open follow-up',()=>{const r=approved(base('Delivered'));r.delivery={date:CLOCK,evidence:'Signed delivery note'};r.closeout={actor:'Morgan Reed',reason:'Resolved'};const res=C.changeStage(r,'Closed');throwsGate(res);assert.match(res.message,/follow-up/);});
+test('T16','Completed closeout can be closed',()=>{const r=approved(base('Delivered'));r.delivery={date:CLOCK,evidence:'Signed delivery note'};r.closeout={actor:'Morgan Reed',reason:'Verified follow-up completion'};const t=r.tasks.find(x=>x.kind==='closeout');t.status='Complete';t.evidence='Follow-up note';const res=C.changeStage(r,'Closed',{actor:'Morgan Reed',clock:CLOCK});assert.equal(res.ok,true);assert.equal(res.record.stage,'Closed');assert.ok(res.record.events.length);});
+test('T17','Imminent incomplete IT test is critical and actionable',()=>{const r=base();const issues=C.riskIssues(r,CLOCK);const i=issues.find(i=>i.message.includes('Technology test'));assert.ok(i);assert.equal(i.severity,'Critical');assert.equal(i.owner,'Taylor Brooks');assert.ok(i.next);assert.equal(i.due,r.targetDate);});
+test('T18','Invalid date yields review needed',()=>{const r=base();r.targetDate='2026-11-31';assert.equal(C.getReadiness(r).state,'Review needed');assert.ok(C.riskIssues(r,CLOCK).some(x=>x.severity==='Review needed'));});
+test('T19','Closed cannot be forced from incomplete in-progress request',()=>{const r=base();const res=C.changeStage(r,'Closed');throwsGate(res);assert.equal(r.stage,'In progress');});
+test('T20','Fixed clock produces deterministic exceptions',()=>{const r=base();const a=C.riskIssues(r,CLOCK),b=C.riskIssues(C.clone(r),CLOCK);assert.deepEqual(a,b);});
+test('X01','Reassignment invalidates acceptance and evidence',()=>{const r=allTasksDone(base());const res=C.reassignTask(r,'agenda','Casey Shah',{clock:CLOCK});assert.equal(res.ok,true);assert.equal(res.record.tasks[0].acceptedBy,'');assert.equal(res.record.tasks[0].status,'Open');assert.equal(C.getReadiness(res.record).state,'Not ready');});
+test('X02','New blocker rolls approved readiness back to in progress',()=>{const r=allTasksDone(base('Ready for review'));const res=C.reassignTask(r,'agenda','Casey Shah',{clock:CLOCK});assert.equal(res.ok,true);assert.equal(res.record.stage,'In progress');assert.ok(res.record.events.some(e=>e.type==='automatic rollback'));});
+test('X03','Task dependency cycles are not green',()=>{const r=allTasksDone(base());r.tasks.find(t=>t.id==='agenda').dependsOn=['presenter'];assert.equal(C.getReadiness(r).state,'Review needed');});
+test('X04','Closed record never silently loses historical status',()=>{const r=approved(base('Closed'));r.delivery={date:CLOCK,evidence:'Proof'};r.closeout={actor:'Morgan Reed',reason:'Verified'};const bad=C.reconcile(r);assert.equal(bad.stage,'Closed');assert.ok(bad.consistencyWarning);assert.equal(C.assess(bad,CLOCK).risk,'Critical');});
+test('X05','Non-applicable optional tasks do not block readiness',()=>{const r=allTasksDone(base());r.tasks.push(F.task('optional','Catering','',{applicable:false,required:false}));assert.equal(C.getReadiness(r).state,'Ready');});
+test('X06','Overdue target is flagged even with completed readiness',()=>{const r=allTasksDone(base());r.targetDate=F.dateAdd(CLOCK,-2);const i=C.riskIssues(r,CLOCK).find(i=>i.rule==='BR-10'&&i.id.includes('overdue'));assert.ok(i);assert.equal(i.severity,'Critical');});
+test('X07','Overdue task with future target is flagged',()=>{const r=base();r.targetDate=F.dateAdd(CLOCK,12);r.tasks.find(x=>x.id==='it').dueDate=F.dateAdd(CLOCK,-1);assert.ok(C.riskIssues(r,CLOCK).some(x=>x.id.includes('task:it')));});
+test('X08','Imported false-green closed stage stays critical',()=>{const r=base('Closed');delete r.consistencyWarning;assert.equal(C.assess(r,CLOCK).risk,'Critical');});
+test('X09','Approval cannot be recorded if readiness has changed',()=>{const r=base('Ready for review');const res=C.decideApproval(r,{decision:'Approved',actor:r.approval.approver});throwsGate(res);assert.equal(res.code,'READINESS');});
+test('X10','Cannot complete post-delivery followup before delivery',()=>{const r=base();const res=C.completeTask(r,'followup',{actor:'Morgan Reed',evidence:'Attempted early closure'});throwsGate(res);assert.equal(res.code,'SEQUENCE');});
+test('X11','Future-dated delivery evidence does not count as delivered',()=>{const r=approved(base('Approved'));r.delivery={date:F.dateAdd(CLOCK,3),evidence:'Fictional receipt'};const res=C.changeStage(r,'Delivered',{clock:CLOCK});throwsGate(res);assert.match(res.message,/future/);});
+const pass=records.filter(x=>x.status==='PASS').length;
+for(const x of records)console.log(`${x.status} ${x.id} ${x.name}${x.detail?'\n'+x.detail:''}`);
+console.log(`\n${pass}/${records.length} automated checks passed.`);
+if(require.main===module)process.exitCode=pass===records.length?0:1;
+module.exports=records;
