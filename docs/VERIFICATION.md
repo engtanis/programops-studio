@@ -5,7 +5,7 @@
 - **Earlier full independent AI review (November 25):** `ProgramOps_Final_Claude_Review_Package.zip`, an earlier candidate, was reviewed against 26 original findings; 19 reason-specific verification groups passed, and five additional findings (N-01–N-05) were identified. Its report also records browser and jsdom testing on that earlier version.
 - **Development-side release verification (November 25):** after the five corrections, the development environment ran the available engine and Chromium checks listed below. Local jsdom installation failed because of registry DNS access.
 - **Targeted independent execution on the release candidate (results supplied November 25):** only the two jsdom-dependent commands in the next section were run independently on `ProgramOps_Public_Release_Candidate.zip`. The reviewer reported Node v22.23.5, jsdom 31.0.1, unchanged file hashes, and no application or test edits. No complete independent review of the release candidate was performed. The reported results are supplied by the reviewer, not a local jsdom rerun.
-- **Documentation-only revision (November 25):** this package updates README and docs without changing application or test bytes. The earlier and current closure-test files were compared and the current script was rerun locally as described below. No publication has occurred.
+- **Documentation-only revision (November 25):** this package updates README and docs without changing application or test bytes. The earlier and current closure-test files were compared and the current script was rerun locally as described below. At this point in the chronology, publication had not occurred.
 
 ## Targeted independent release-candidate results
 
@@ -45,7 +45,24 @@ New Chromium checks: reassignment displays actual review/approval reset; labels 
 
 The earlier independently reviewed version of `stage1_targeted_checks.js` attempted to record closure before delivery, contrary to the adopted closure policy. The owner authorized a setup-only correction, including completion of required follow-up. A byte-level comparison of the earlier and current files on November 25 shows one changed line: five workflow calls are inserted before the existing closure saves (Ready for review, approval decision, Approved, Delivered, and completed follow-up). No existing assertions or other lines were removed or changed. The current script was rerun on Node v22.16.0: 5/5 checks passed, exit 0. The earlier file and retired compatibility copy are retained privately; neither is counted as a current pass. The targeted independent reviewer did not examine this correction.
 
-The final publication decision is whether to retain the already authorized corrected setup and document its provenance (recommended), or formally retire the test and revise the published test inventory and counts. No additional test changes were made in this documentation revision.
+The owner approved retaining the corrected setup, unchanged assertions and documented provenance on November 25, 2026. No additional test changes were made in this documentation revision.
+
+## Public deployment and hosted smoke test — November 25, 2026
+
+The owner authorized public release and GitHub Pages hosting. The [initial Pages deployment](https://github.com/engtanis/programops-studio/actions/runs/45666894663) completed successfully from commit `03e00ee068abff70888217e538dd32e6c8b3440e`. GitHub reported success for build and deployment. A build-infrastructure warning about Node.js 20 deprecation did not prevent deployment.
+
+The owner manually exercised the [hosted demonstration](https://engtanis.github.io/programops-studio/) in their browser, guided by ChatGPT. Results were reported through messages, screenshots and an exported CSV inspected by ChatGPT. This was a limited deployment smoke test, not an independent review, automated hosted regression run or real-user adoption study.
+
+| Check | Observed result |
+|---|---|
+| Readiness gate | Attempted advancement with incomplete Technology test; blocked with task-not-complete message. |
+| Evidence capture | Fictional verification recorded; readiness recalculated. |
+| Valid advancement | Ready for review transition recorded. |
+| Reload persistence | Screenshot showed Ready for review, completed Technology test and retained evidence. |
+| Exception queue | Six computed exceptions displayed with severity, responsible actor and next action; OPS-101 showed pending approval. |
+| CSV export | Downloaded CSV inspected: five data rows, 15 fields per row, six exceptions in total; OPS-101 Ready for review and Ready. |
+
+All six planned checks passed; no defect was encountered in this walkthrough. The browser family/version was not separately captured. These results do not demonstrate approval/delivery/closure end-to-end on the hosted site, cross-browser compatibility, production readiness or absence of other defects. Application and test files were not changed for this closeout.
 
 ## Reproduce
 
@@ -63,4 +80,4 @@ Without jsdom, `independent_review_ui_regressions.js` cannot execute and `final_
 
 The current candidate uses simulated actors, no authentication or backend, and browser local storage only. Chromium is the only real browser family tested on the current application; jsdom is not a real browser. There is no current-release Safari/Firefox, physical mobile device or screen-reader verification. Legacy storage is not comprehensively migrated; scenario dates can require manual restoration before further action. No real-user testing, production security audit, or employer-policy assessment was performed.
 
-The public candidate includes current tests, not private historical reports or employer-specific specifications. A development-side text scan of included files on November 25 found no matches for the known employer and contact names, private workspace paths, or email patterns searched. This is a limited scan, not an independent privacy, confidentiality, intellectual-property or legal review. Prior development evidence is retained privately; the latest targeted independent counts are reported as supplied. Public wording and the decision about employer references remain subject to owner approval.
+The public candidate includes current tests, not private historical reports or employer-specific specifications. A development-side text scan of included files on November 25 found no matches for the known employer and contact names, private workspace paths, or email patterns searched. This is a limited scan, not an independent privacy, confidentiality, intellectual-property or legal review. Prior development evidence is retained privately; the latest targeted independent counts are reported as supplied. On November 25, the owner approved the portfolio description and keeping employer-specific names and internal documents private, then explicitly authorized publication of the sanitized source without adding a reuse license. This is not employer-policy or legal clearance.
