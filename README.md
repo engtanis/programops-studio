@@ -8,6 +8,8 @@ A request can appear ready even though a handoff has not been accepted, a depend
 
 **[Launch the live demonstration](https://engtanis.github.io/programops-studio/)**
 
+[Read the business case study on Notes Across Borders](https://notesacrossborders.wordpress.com/applied-projects/programops-studio/)
+
 Open `index.html` with its three adjacent JavaScript files in a current desktop browser, or open the bundled `ProgramOps_Studio_Stage_3_Demo.html`. No account or server is required; a static HTTP host is another option. Use fictional information only. Changes are stored locally in the browser where storage is available. Resetting the example records requires confirmation.
 
 Suggested walkthrough:
