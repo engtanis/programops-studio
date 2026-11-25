@@ -6,6 +6,8 @@ A request can appear ready even though a handoff has not been accepted, a depend
 
 ## Try it
 
+**[Launch the live demonstration](https://engtanis.github.io/programops-studio/)**
+
 Open `index.html` with its three adjacent JavaScript files in a current desktop browser, or open the bundled `ProgramOps_Studio_Stage_3_Demo.html`. No account or server is required; a static HTTP host is another option. Use fictional information only. Changes are stored locally in the browser where storage is available. Resetting the example records requires confirmation.
 
 Suggested walkthrough:
@@ -40,6 +42,8 @@ See [case study](docs/CASE_STUDY.md), [requirements](docs/REQUIREMENTS.md), and 
 | `node final_review_new_findings.js` | 5/5 DEFECT (N-01–N-05), 4/4 PIN; no skips; exit 0 |
 
 The reviewer reported unchanged application and test file hashes before and after these runs and no reproduced publication-blocking defect within this limited scope. Only these two suites were independently executed on this release candidate; the reviewer did not independently review the later source changes, README or docs, `final_minor_checks.js`, Playwright scripts, employer references, or the closure-test setup correction. These documentation-only revisions follow that execution; the application and tests are unchanged. See [verification details](docs/VERIFICATION.md) for the methods, chronology and limits of the evidence.
+
+**Hosted smoke test (November 25, 2026):** GitHub Pages deployed the verified application from commit `03e00ee`. The project owner manually completed six planned checks with ChatGPT guidance: blocked advancement, verification evidence, valid advancement, reload persistence, exception queue and CSV export. All six passed in the reported browser session. The exported CSV contained five fictional records, 15 fields per row and six exceptions. See [deployment and smoke-test evidence](docs/VERIFICATION.md#public-deployment-and-hosted-smoke-test--november-25-2026). This was not an independent or comprehensive hosted review.
 
 ## Limits
 
