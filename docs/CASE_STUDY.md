@@ -8,6 +8,10 @@ A coordinator sees an upcoming request marked on track. However, one required te
 
 This independent, AI-assisted portfolio project explores a small, fictional workflow in which readiness is derived from required work and evidence instead of relying solely on manual status. The design makes incomplete requirements visible, explains refused transitions and preserves superseded evidence in a simulated history. It considers operational controls, reporting definitions and recovery paths alongside the user interface.
 
+## Professional background and development approach
+
+The project draws on business operations experience, an MBA and PMP certification, and practical work with Excel, Power BI, SharePoint and Microsoft Lists. Translating operational requirements into software required decisions about accepted handoffs, approval validity, evidence retention and the distinction between delivery and closure. For example, material changes to a request must invalidate affected approvals without discarding the previous decision record. The owner directed requirements and business-policy decisions, evaluated proposed corrections, approved changes, reviewed test results and manually exercised key workflows on the hosted site. ChatGPT assisted with generating code, documentation and test execution; Claude reviewed an earlier candidate and later executed two targeted regression suites on the revised candidate.
+
 ## Demonstration
 
 Open the sample stakeholder briefing. Attempt to advance before the technology verification is complete; the application identifies the blocker. Complete the task with synthetic evidence, record review, and progress to delivery. The application also guards against premature closure while required follow-up remains open. After verification, the request can close with a documented reason.
